@@ -1,0 +1,33 @@
+{% extends "cf_simple.html" %}
+
+{% block title %}<title>CF | Login</title>{% endblock %}
+{% block title-card %}{% endblock %}
+
+{% block content %}
+<form class="main-wrapper" action="" method="post">
+	{% csrf_token %}
+	<div id="mainbox-small">
+		{% if form.errors %}
+			<p>Your username and password didn't match. Please try again.</p>
+		{% endif %}
+		{% if next %}
+			{% if user.is_authenticated %}
+				<p>Your account doesn't have access to this page. To proceed, please log in with an account that has access.</p>
+			{% else %}
+				<p>Please log in to see this page.</p>
+			{% endif %}
+		{% endif %}
+			<div>
+				{{ form.username.label_tag }} {{ form.username }}
+			</div>
+			<div>
+				{{ form.password.label_tag }} {{ form.password }}
+			</div>
+			<input type="submit" class="btn" value="Log in" />
+			<input type="hidden" name="next" value="{{ next }}" />
+		<div><a href="{% url 'new-account' %}" class="themecolor-text">New Account</a></div>
+		<div><a href="{% url 'password_reset' %}" class="themecolor-text">Reset Password</a></div>
+		<div><a href="{% url 'new_run' %}" class="themecolor-text">Guest</a></div>
+	</div>
+</form>
+{% endblock %}

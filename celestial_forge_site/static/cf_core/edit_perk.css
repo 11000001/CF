@@ -1,0 +1,166 @@
+.shadow{box-shadow: .2em .2em .5em #333;}
+.noshow{display:none;}
+.pointer{cursor:pointer;}
+.flex-end{align-self: flex-end;}
+
+.multi-main-wrapper{
+	flex:1;
+	display: flex;
+}
+
+#mainbox-card{
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+#mainbox-card hr {
+	width:70%;
+	margin:0rem;
+}
+
+/* Remove arrows from input[type=number] */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type=number]{
+	width: 2.5vw;
+}
+
+input[type=text]{
+	width: 20vw;
+}
+
+input[type=url]{
+	width: 20vw;
+}
+
+textarea{
+	width: 100%;
+}
+
+#id_perk_form-source{
+	width: 20vw;
+}
+
+#id_source_form-name{
+	width: 20vw;
+	margin-bottom:.75rem;
+}
+
+select{
+	width:20vw;
+}
+
+.prereq-box{
+	width: 49%;
+}
+
+.prereq-box>select{
+	width: 99%;
+	height:10rem;
+}
+
+.source-box{
+	width: 50%;
+}
+
+#id_source_form-url_wikipedia{
+	width:85%;
+}
+
+#id_perk_form-url_wikipedia{
+	margin-bottom:.75rem;
+}
+
+.url-box{
+	width:20vw;
+}
+
+.plusbtn {
+	display:inline-block;
+	font-size: 12px;
+	cursor: pointer; 
+}
+
+.clip-topright {
+		--notchSize: 5px;
+	clip-path: 
+		polygon(
+			0% 0%,
+			calc(100% - var(--notchSize)) 0%, 
+			100% var(--notchSize),  
+			100% 100%,
+			0% 100%
+		);
+}
+
+
+#mid-gap{
+	width:.25rem;
+}
+
+#addon-nav{
+	border-width: 1px 1px 0px 1px;
+	border-style: solid;
+	border-color: white;
+}
+
+#addon-box-btn-0{
+		--notchSize: 5px;
+	clip-path: 
+		polygon(
+			0% var(--notchSize), 
+			var(--notchSize) 0%, 
+			100% 0%, 
+			100% 100%,
+			0% 100%
+		);
+}
+
+.addon-number{
+	position: relative;
+	display: none;
+	background-color: rgba(26,0,26,1);
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	cursor:pointer;
+	flex: 1;
+	border: .5px solid white;
+	border-style: none solid none solid;
+}
+
+.addon-number-clicked{
+	background-color: white;
+	color: black;
+	font-weight: 900;
+}
+
+.addon-box{
+	position: relative;
+	flex-flow: column nowrap;
+	justify-content: space-between;
+	width:100%;
+	height:96%;
+	top:0;
+	display: none;
+	padding: 1.5rem;
+}
+
+.self-prereq-wrapper{
+	display:flex;
+	justify-content: space-evenly;
+	height:20px;
+}
+
+.addon-bottom-fill{
+	height: 10%;
+}

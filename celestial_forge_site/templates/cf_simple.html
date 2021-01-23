@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% block title %}<title>CF</title>{% endblock %}
+	<meta charset="utf-8">
+	<meta name="keywords" content="Celestial Forge, CYOA, Jumpchain, Inventor, Inspired Inventor, Tinker, Fiction, Technology, Magic">
+	<meta name="description" content="A web application which automates selections from the celestial forge, a compilation of technologies and pseudo-technologies from a wide variety of fictional settings.">
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'base_generic.css' %}">
+	<link rel="stylesheet" href="{% static 'cf_generic.css' %}">
+	<link href='https://fonts.googleapis.com/css?family=Atomic Age' rel='stylesheet'>
+	<link rel="icon" href="{% static 'd20--M-Maggs.png' %}" type="image/png">
+	<script src="https://kit.fontawesome.com/34a33e2e3c.js" crossorigin="anonymous"></script>
+	{% block head-add %}{% endblock %}
+</head>
+<body class="body-style">
+<div id="header-wrapper" class="header-style-1">
+	<div id="title-card-L" class= "noselect">
+		<div id="title">CF{% block header-addition %}{% endblock %}</div><div id="sub-header"> {% block sub-header %}{% endblock %}</div>
+	</div>
+	<div id="angle1"></div>
+	<div id="header-C">
+		<div id="title-card-C" class= "noselect">
+			{% block title-C %}{% endblock %}
+		</div>
+	</div>
+</div>
+{% block content %}{% endblock %}
+{% block scripts %}{% endblock %}
+</body>
+</html>

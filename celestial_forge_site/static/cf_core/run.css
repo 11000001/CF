@@ -1,0 +1,223 @@
+.show {display: block;}
+.topZ{z-index:15;}
+
+#current-cp{
+	height:2rem;
+	width: 6rem;
+	line-height:2rem;
+	font-size: 16px;
+	padding: 0rem .5rem;
+	text-align: center;
+	font-weight: 900;
+}
+
+#id_cp_fixed_value{
+	flex:1;
+	min-width: 0;
+	margin-left: .3rem;
+}
+
+#id_cp_random_value{
+	flex:1;
+	min-width: 0;
+	margin-left: .3rem;
+}
+
+.card-container {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-evenly;
+	width:100%;
+	overflow-x: hidden;
+	padding: .5rem 0rem .5rem 0rem;
+}
+
+.card-container-end {
+	height: 1rem;
+	width: 100%;
+}
+
+.card-wrapper {
+	display: block;
+	margin-right: 2rem;
+	transition-timing-function: ease-in-out;
+	transition-duration: .25s;
+	transition-property: transform;
+}
+
+.card {
+	position: relative;
+	width:30rem;
+	height:42rem;
+	border-radius: 16px;
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+	padding: 1.5rem;
+	-ms-overflow-style: none;  /* Hide scrollbar IE and Edge */
+	scrollbar-width: none;  /* Hide scrollbar Firefox */
+	overscroll-behavior: contain;
+}
+.card::-webkit-scrollbar {display: none;} /* Hide scrollbar Chrome, Safari, Opera */
+
+.card hr {
+	margin-left:0;
+	width:70%
+}
+
+.card-margin-shift {
+	margin: -9.75rem -6.75rem -9.75rem -6.75rem;
+}
+
+.card-default {
+	border-width: 10px;
+	border-style: ridge;
+	border-color: rgba(72,51,72,1);
+	background-color: white;
+}
+
+.card-fade {
+	border-width: 10px;
+	border-style: ridge;
+	border-color: rgba(179, 179, 179,1);
+	background-color: rgba(100,100,100,1);
+	color: rgba(175,175,175,1);
+}
+
+.card-new {
+	outline: 5px dashed black;
+	outline-offset: -10px;
+	border-width: 0px;
+	transition: transform 1s;
+	font-size: 8rem;
+	text-align: center;
+	padding: calc((34rem - 30px) / 2) 0;
+}
+
+.card-new:active {
+	transform: scale(.25);
+}
+
+.card-new:hover {
+	outline: 5px dashed rgba(72,51,72,.95);
+	cursor: pointer;
+	color: rgba(72,51,72,.95);
+}
+
+#card-source{
+	font-size: 16px;
+	font-variant: small-caps;
+}
+
+.card-bottom-container {
+	position: relative;
+	display: inline-flex;
+	width:100%;
+	margin-top: auto;
+	margin-bottom: 0px;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.tag {
+	font-size: 10px;
+	padding: 4px 10px;
+	border: 2px solid;
+	border-radius: 2rem;
+	cursor: pointer;
+	margin-left:2px;
+}
+
+.card-top-container {
+	position: relative;
+	display: inline-flex;
+	justify-content: flex-end;
+	margin-bottom: 4px;
+	font-size: 12px;
+	width: 100%;
+}
+
+
+.card-sup-container {
+	display: inline-flex;
+	width:100%;
+}
+
+.card-sup-title {
+	font-size: 16px;
+	margin-bottom: 5px;
+}
+
+.card-sup-cost {
+	text-align: right;
+	font-size: 16px;
+}
+
+.card-title {
+	font-size: 20px;
+	font-weight: 700;
+	margin: 0px;
+}
+
+.min {
+	transform: scale(.5);
+}
+
+img.cardback {
+	position: absolute;
+	top:0;
+	left:0;
+	width: 30rem;
+	height:42rem;
+	object-fit: cover;
+	object-position: 39% 70%;
+	border-style: solid;
+	border-radius: 16px;
+	border-width: 2px;
+	border-color: black;
+}
+
+.card-btn-wrapper{
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	right:-2.75rem;
+	text-align: center;
+	color: rgba(200,200,200,1);
+	font-size: 24px;
+}
+
+.card-btn{
+	display: block;
+	color: inherit;
+	margin: .5rem 0rem;
+	padding: .5rem;
+}
+
+.card-btn:hover{
+	color: black;
+}
+
+.flip-front, .flip-back {
+	transition-timing-function: cubic-bezier(.175, .885, .32, 1.275);
+	transition-duration: .5s;
+	transition-property: transform, opacity, box-shadow;
+}
+.flip-front {
+	transform: rotateY(0deg);
+	box-shadow: -.5rem .25rem .5rem #000000;
+}
+.flip-back {
+	opacity: 0;
+	transform: rotateY(-180deg);
+}
+
+.flipped-front{
+	transform: rotateY(180deg);
+	box-shadow: 0 0 0 #000000;
+}
+.flipped-back{
+	opacity: 1;
+	transform: rotateY(0deg);
+	box-shadow: -.5rem .25rem .5rem #000000;
+}

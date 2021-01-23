@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{e6a815ec-18e4-41cb-9aa2-fa8238fb7607}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <InterpreterId>MSBuild|DjangoEnv|$(MSBuildProjectFullPath)</InterpreterId>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <DjangoSettingsModule>celestial_forge_site.settings</DjangoSettingsModule>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="CF.txt" />
+    <Content Include="Dependencies.txt" />
+    <Content Include="static\base_generic.css" />
+    <Content Include="static\Blockchain--GerdAltmann.jpg" />
+    <Content Include="static\brightRings--GerdAltmann.png" />
+    <Content Include="static\bwforge.gif" />
+    <Content Include="static\bwforge2.gif" />
+    <Content Include="static\cf_core\edit_perk.css" />
+    <Content Include="static\cf_core\index.css" />
+    <Content Include="static\cf_core\new_perk.css" />
+    <Content Include="static\cf_core\run.css" />
+    <Content Include="static\cf_generic.css" />
+    <Content Include="static\cf_generic_base.css" />
+    <Content Include="static\cf_generic_square_btns.css" />
+    <Content Include="static\distortRings--GerdAltmann.png" />
+    <Content Include="static\forge.gif" />
+    <Content Include="static\forge3.gif" />
+    <Content Include="static\forge4.gif" />
+    <Content Include="static\forge5.gif" />
+    <Content Include="static\hex-chain-filtered--Gerd-Altmann.jpg" />
+    <Content Include="static\imgs\forge_banners\distortRings--GerdAltmann.png" />
+    <Content Include="static\imgs\forge_banners\distortRings--GerdAltmann_VIXN3zj.png" />
+    <Content Include="static\imgs\forge_banners\forge.gif" />
+    <Content Include="static\imgs\forge_banners\forge3.gif" />
+    <Content Include="static\imgs\forge_banners\networkcircle--GerdAltmann.png" />
+    <Content Include="static\imgs\forge_banners\networkcircle--GerdAltmann_yLtMxR4.png" />
+    <Content Include="static\imgs\forge_banners\networkcircle--GerdAltmann_ZRxSoum.png" />
+    <Content Include="static\imgs\forge_banners\oiltrippyRings--GerdAltmann.png" />
+    <Content Include="static\imgs\forge_banners\purpleRings--GerdAltmann.png" />
+    <Content Include="static\lightpurpleRings--GerdAltmann.png" />
+    <Content Include="static\logout.svg" />
+    <Content Include="static\network--GerdAltmann.png" />
+    <Content Include="static\networkcircle--GerdAltmann.png" />
+    <Content Include="static\oiltrippyRings--GerdAltmann.png" />
+    <Content Include="static\purple2Rings--GerdAltmann.png" />
+    <Content Include="static\purpleRings--GerdAltmann.png" />
+    <Content Include="static\Rings--GerdAltmann.jpg" />
+    <Content Include="templates\base_generic.html" />
+    <Content Include="templates\cf_core\edit_perk.html" />
+    <Content Include="templates\cf_core\index.html" />
+    <Content Include="templates\cf_core\new_account.html" />
+    <Content Include="templates\cf_core\new_perk.html" />
+    <Content Include="templates\cf_core\run.html" />
+    <Content Include="templates\cf_generic.html" />
+    <Content Include="templates\cf_simple.html" />
+    <Content Include="templates\registration\logged_out.html" />
+    <Content Include="templates\registration\login.html" />
+    <Content Include="templates\registration\password_reset_complete.html" />
+    <Content Include="templates\registration\password_reset_confirm.html" />
+    <Content Include="templates\registration\password_reset_done.html" />
+    <Content Include="templates\registration\password_reset_email.html" />
+    <Content Include="templates\registration\password_reset_form.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="bin\wfastcgi.py" />
+    <Compile Include="celestialforge.py" />
+    <Compile Include="celestial_forge_site\asgi.py" />
+    <Compile Include="celestial_forge_site\settings.py" />
+    <Compile Include="celestial_forge_site\urls.py" />
+    <Compile Include="celestial_forge_site\wsgi.py" />
+    <Compile Include="celestial_forge_site\__init__.py" />
+    <Compile Include="cf_core\admin.py" />
+    <Compile Include="cf_core\apps.py" />
+    <Compile Include="cf_core\forms.py" />
+    <Compile Include="cf_core\functions.py" />
+    <Compile Include="cf_core\migrations\0001_initial.py" />
+    <Compile Include="cf_core\migrations\0002_remove_perk_source_old.py" />
+    <Compile Include="cf_core\migrations\0003_auto_20201209_0941.py" />
+    <Compile Include="cf_core\migrations\__init__.py" />
+    <Compile Include="cf_core\models.py" />
+    <Compile Include="cf_core\tests.py" />
+    <Compile Include="cf_core\urls.py" />
+    <Compile Include="cf_core\views.py" />
+    <Compile Include="cf_core\__init__.py" />
+    <Compile Include="create_db_backup.py" />
+    <Compile Include="create_sources.py" />
+    <Compile Include="manage.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin" />
+    <Folder Include="celestial_forge_site" />
+    <Folder Include="cf_core" />
+    <Folder Include="cf_core\migrations" />
+    <Folder Include="static" />
+    <Folder Include="static\cf_core" />
+    <Folder Include="static\imgs\" />
+    <Folder Include="static\imgs\forge_banners" />
+    <Folder Include="templates" />
+    <Folder Include="templates\cf_core" />
+    <Folder Include="templates\registration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="DjangoEnv\">
+      <Id>DjangoEnv</Id>
+      <Version>3.8</Version>
+      <Description>DjangoEnv (Python 3.8 (32-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X86</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

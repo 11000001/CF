@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% block title %}<title>CF</title>{% endblock %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'base_generic.css' %}">
+	<link href='https://fonts.googleapis.com/css?family=Atomic Age' rel='stylesheet'>
+	<link rel="icon" href="{% static 'd20--M-Maggs.png' %}" type="image/png">
+</head>
+<body>
+<div id="header-wrapper">
+	{% block title-card %}
+	<div id="title-card" class= "noselect">
+		<h1 id="title">CF</h1>
+	</div>
+	{% endblock %}
+	
+	{% block header %} {% endblock %}
+	
+</div>
+
+{% block content %} {% endblock %}
+
+</body>
+</html>

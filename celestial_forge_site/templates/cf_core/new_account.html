@@ -1,0 +1,26 @@
+{% extends "cf_simple.html" %}
+
+{% block title %}<title>CF | New Account</title>{% endblock %}
+
+{% block title-C %}Create a New Account{% endblock %}
+
+{% block content %}
+<form action="" method="post" class="main-wrapper" >
+	{% csrf_token %}
+	<div  id="mainbox-medium">
+		{% if form.email.errors %}
+			{{ form.email.errors }}
+		{% endif %}
+		<div><b>{{ form.username.label }}: </b>{{ form.username }}</div>
+		{{ form.username.help_text }}
+		<div><b>{{ form.email.label }}: </b>{{ form.email }}</div>
+		<span> Optional, but the only way to recover an account. </span>
+		<div><b>{{ form.password1.label }}: </b>{{ form.password1 }}</div>
+		<span> Required.</span>
+		{{ form.password1.help_text }} 
+		<div><b>Confirm Password: </b>{{ form.password2 }}</div>
+		<span> Required.</span>
+		<input type="submit" class="btn" value="Register">
+	</div>
+</form>
+{% endblock %}

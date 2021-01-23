@@ -1,0 +1,271 @@
+{% extends "cf_generic.html" %}
+
+{% load static %}
+
+{% block head-add %}
+	<link rel="stylesheet" href="{% static 'cf_core/run.css' %}">
+{% endblock %}
+
+{% block title %}<title>CF | {{ run_name }}</title>{% endblock %}
+
+{% block header-addition %}{% endblock %}
+
+{% block sub-header %}{{ user.get_username }}{% endblock %}
+
+{% block title-C %}{{ run_name }}{% endblock %}
+
+{% block nav-right %}
+	<!-- Error tooltip -->
+	<div id="error-wrap" class="nav-btn-wrapper">
+		{% if form.errors %}
+			<div class="nav-btn error-color noselect">
+		{% else %}
+			<div class="nav-btn grey-text noselect">
+		{% endif %}
+			<i class="fas fa-exclamation-triangle"></i>
+			</div>
+	</div>
+	<form id="drop-form" method="POST" action="#bot"> 
+	{% csrf_token %}
+	<!-- Store whether settings are currently displayed -->
+	{{ form.open_settings }}
+	<!-- Main Dropdown Menu -->
+	{% if form.open_settings.value != '1' %}
+		<div id='settings-btn-wrap' class="nav-btn-wrapper alt-hover">
+	{% else %}
+		<div id='settings-btn-wrap' class="nav-btn-wrapper alt-back">
+	{% endif %}
+		<div class="nav-btn" onclick="toggleDrop('settings_wrap','settings-btn-wrap', 'alt-back')">
+			<i class="fas fa-cog"></i>
+		</div>
+		</div>
+		<!-- Dropdown -->
+		{% if form.open_settings.value != '1' %}
+			<div id='settings_wrap' class="dropdown-wrapper flip-back">
+		{% else %}
+			<div id='settings_wrap' class="dropdown-wrapper show flip-back">
+		{% endif %}
+			<div id='settings_menu' class="dropdown noselect">
+				{% for field in form %}
+					{% if field.label == 'CP' %}
+						<!-- CP Field -->
+						<div class="spacer">
+						{% if field.errors %}
+							<span class="error-color"> {{ field.label }}</span>
+							{% for error in field.errors %}
+								<span class="error-color small-text"> - {{ error|escape }} </span>
+							{% endfor %}
+						{% else %}
+							{{ field.label }}
+						{% endif %}
+						{% for choice in field %}
+							<!-- CP Dropdown Menu Item -->
+							{{ choice.tag }}
+							<label class="menu-item wiggle" for="{{ choice.id_for_label }}">
+								<div class="radiobox"> </div>{{ choice.choice_label }}
+								{% if choice.choice_label == 'Random' %}
+									<!-- Text input -->
+									{{ form.cp_random_value }}
+								{% else %}
+									<!-- Text input -->
+									{{ form.cp_fixed_value }}
+								{% endif %}
+							</label>
+						{% endfor %}
+						</div>
+					{% elif 'CP' not in field.label %}
+						<!-- Normal Field -->
+						<div class="spacer">
+						{% if field.errors %}
+							<span class="error-color"> {{ field.label }}</span>
+							{% for error in field.errors %}
+								<span class="error-color small-text"> - {{ error|escape }} </span>
+							{% endfor %}
+						{% else %}
+							{{ field.label }}
+						{% endif %}
+						{% for choice in field %}
+							<!-- Normal Menu Item -->
+							{{ choice.tag }}
+							<label class="menu-item wiggle" for="{{ choice.id_for_label }}">
+								<div class="radiobox"> </div>{{ choice.choice_label }}
+							</label>
+						{% endfor %}
+							</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</form>
+	<!--Current CP Display -->
+	<div id="current-cp">
+		<b>{{ CP }} CP</b>
+	</div>
+	<a href="../../" class="xbtn-wrapper red-hover">
+		<div class="xbtn">
+			<i class="fas fa-times"></i>
+		</div>
+	</a>
+{% endblock %}
+
+{% block content %}
+<div class="main-wrapper card-container">
+<div class="card-container">
+		{% for attempt in run %}
+			<div id='card-wrapper-{{ forloop.counter0 }}' class="card-wrapper card-margin-shift min">
+				<div id='card-btn-wrapper-{{ forloop.counter0 }}' class="card-btn-wrapper">
+					<div class="card-btn" onclick="toggleMag('card-wrapper-{{ forloop.counter0 }}', 'card-btn-wrapper-{{ forloop.counter0 }}')">
+						<i class="fas fa-search"></i>
+					</div>
+					<div class="card-btn" onclick="flip('front-{{ forloop.counter0 }}','back-{{ forloop.counter0 }}')">
+						<i class="fas fa-retweet"></i>
+					</div>
+					<a href="{% url 'edit-perk' perk_id=attempt.perk.id %}" class="card-btn">
+						<i class="fas fa-edit"></i>
+					</a>
+				</div>
+			{% if attempt.locked %}
+				<div id="front-{{ forloop.counter0 }}" class="card card-default noselect flip-front" onmouseleave="tscroll(this)" onclick="toggleMag(this)">
+					<div class="card-sup-container">
+						<div class="card-sup-title">
+							{{ attempt.domain.name }}
+						</div>
+						<div class="fill"></div>
+						<div class="card-sup-cost">
+						[{{ attempt.perk.cost}} CP]
+						</div>
+					</div>
+					<h2 class="card-title">
+						{{ attempt.perk.name }}
+					</h2>
+					<hr>
+					<p>
+						{{ attempt.perk.description }}
+					</p>
+					<ul> 
+					{% for addon in attempt.addons.all %} 
+						<li> <i> {{ addon.name }} </i> - {{ addon.description }}</li> 
+					{% endfor %} 
+					</ul> 
+					
+					<div class="card-bottom-container">
+						<div id="card-source">{{ attempt.perk.source }}</div>
+						<div class="fill"> </div>
+						<div class="tag" onclick="location.href={{ attempt.perk.url_wikipedia }};">Wikipedia</div>
+						<div class="tag" onclick="location.href={{ attempt.perk.url_youtube }};">Youtube</div>
+					</div>
+				</div>
+			{% else %}
+				<div id="front-{{ forloop.counter0 }}" class="card card-fade noselect flip-front" onmouseleave="tscroll(this)" onclick="toggleMag(this)">
+					<div class="card-sup-container">
+						<div class="card-sup-title">
+							{{ attempt.domain.name }}
+						</div>
+						<div class="fill"> </div>
+						<div class="card-sup-cost">
+							[{{ attempt.perk.cost}} CP]
+						</div>
+					</div>
+						<h2 class="card-title">
+							{{ attempt.perk.name }}
+						</h2>
+					<hr>
+					<p>
+						{{ attempt.perk.description }}
+					</p>
+					<ul> 
+					{% for addon in attempt.addons.all %} 
+						<li> <i> {{ addon.name }} </i> - {{ addon.description }}</li> 
+					{% endfor %} 
+					</ul> 
+					<div class="card-bottom-container">
+						<div id="card-source">{{ attempt.perk.source }}</div>
+						<div class="fill"> </div>
+						<div class="tag" onclick="location.href={{ attempt.perk.url_wikipedia }};">Wikipedia</div>
+						<div class="tag" onclick="location.href={{ attempt.perk.url_youtube }};">Youtube</div>
+					</div>
+				</div>
+			{% endif %}
+			<img id="back-{{ forloop.counter0 }}" class="cardback flip-back" src="{% static 'forge.gif' %}" alt="Cardback" onclick="">
+			</div>
+		{% endfor %}
+		<div id='card-wrapper-bot' class="card-wrapper min">
+			<div id="bot" class="card card-new card-margin-shift noselect" onclick="document.getElementById('drop-form').submit();">
+				<i class="fas fa-plus-circle"></i>
+			</div>
+		</div>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+	function tscroll(x) {
+	x.scrollTo(0,0);
+	}
+	</script>
+	<script>
+	function hideOnClickOutside(x) {
+		const outsideClickListener = event => {
+			if (!x.contains(event.target)) {
+				x.style.transform = "scale(.5)";
+				x.style["-webkit-transform"] = "scale(.5)";
+				x.style["-moz-transform"] = "scale(.5)";
+				x.style["-o-transform"] = "scale(.5)";
+				x.style["-ms-transform"] = "scale(.5)";
+				setTimeout(function(){x.classList.toggle("topZ");},125);
+				removeClickListener()
+			}
+		}
+		const removeClickListener = () => {
+			document.removeEventListener('click', outsideClickListener)
+		}
+		document.addEventListener('click', outsideClickListener)
+	}
+	</script>
+	<script>
+	function toggleMag(x) {
+		var wrapper = document.getElementById(x);
+		if (wrapper.classList.contains('min')){
+			const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+			const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+			var brect = wrapper.getBoundingClientRect();
+			var cx = -brect.left+(vw-brect.width)/2;
+			var cy = -brect.top+(vh-brect.height)/2;
+			wrapper.style.transform = "translate("+cx+"px, "+cy+"px)";
+			wrapper.classList.add("topZ");
+			wrapper.classList.remove('min');
+			hideOnClickOutside(wrapper);
+		} else {
+			wrapper.style.transform = "";
+			wrapper.classList.add('min');
+			setTimeout(function(){x.classList.remove("topZ");},251);
+		}
+	}
+	</script>
+	<script>
+	function flip(front, back) {
+		document.getElementById(front).classList.toggle('flipped-front');
+		document.getElementById(back).classList.toggle('flipped-back');
+	}
+	</script>
+	<script>
+	function toggleDrop(x,y,z) {
+		var drop = document.getElementById(x);
+		if (drop.classList.contains('show')){
+			setTimeout(function(){drop.classList.remove("show");},501);
+			drop.classList.remove('flipped-back');
+			document.getElementById(y).classList.remove(z);
+		} else {
+			drop.classList.add('show');
+			setTimeout(function(){drop.classList.add("flipped-back");},25);
+			document.getElementById(y).classList.add(z);
+		}
+		if (x == 'settings_wrap' && document.getElementById('id_open_settings').value=='0'){
+			document.getElementById('id_open_settings').value='1';
+		} else if (x == 'settings_wrap'){
+			document.getElementById('id_open_settings').value='0';
+		}
+	}
+	</script>
+{% endblock %}

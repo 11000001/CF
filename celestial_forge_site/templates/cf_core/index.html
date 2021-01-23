@@ -1,0 +1,89 @@
+{% extends "cf_generic.html" %}
+
+{% load static %}
+
+{% block title %}<title>CF</title>{% endblock %}
+
+{% block head-add %}
+	<link rel="stylesheet" href="{% static 'cf_core/index.css' %}">
+{% endblock %}
+
+{% block header-addition %}{% endblock %}
+
+{% block sub-header %}{{ user.get_username }}{% endblock %}
+
+{% block nav-right %}
+	<div id='save-wrap' class="nav-btn-wrapper" onclick="document.getElementById('del-form').submit();">
+		<div id ='save' class="nav-btn noselect grey-text">
+			<i class="fas fa-trash"></i>
+		</div>
+	</div>
+	<a href="new_perk" class="nav-btn-wrapper alt-hover">
+		<div class="nav-btn black-text noselect">
+			<i class="fas fa-cloud-upload-alt"></i>
+		</div>
+	</a>
+	<a href="../accounts/logout_view" class="nav-btn-wrapper red-hover">
+		<div class="nav-btn black-text noselect">
+			<i class="fas fa-sign-out-alt"></i>
+		</div>
+	</a>
+{% endblock %}
+
+{% block content %}
+<div class="main-wrapper">
+	<form id="del-form" method="POST" action=""> 
+	{% csrf_token %}
+	<!-- Store which runs to delete-->
+	{{ form.to_delete }}
+	</form>
+	<div class="card-container">
+		{% for run in runs %}
+			<div id='{{ run.id }}' class="card card-default-style">
+				<a class="overlay-container notd" href="run/{{ run.id }}">
+					<img class="banner" src="{{ run.forge.banner.url }}" />
+					<div class="card-left black-text"> 
+						{% if run.name %}
+							<b>{{ run.name }}</b>
+						{% else %}
+							<b>Run #{{ run.id }}</b>
+						{% endif %}
+						<ul class="forge-list">
+							<li><b>CP:</b> {{ run.get_current_cp }}</li>
+							<li><b>Perks:</b> {{ run.get_number_locked }}</li>
+							<li><b>Attempts:</b> {{ run.get_current_number|add:1 }}</li>
+							<li><b>Last update:</b> {{ run.last_update|date:"DATE_FORMAT" }}</li>
+						</ul>
+					</div>
+					<div class="forge-name">
+						{{ run.forge.name }}
+					</div>
+				</a>
+				<button class="xbtn xclicker" onclick="deleteCard('{{ run.id }}');">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+		{% endfor %}
+		<a href="run/"id="bot" class="card card-new noselect notd black-text">
+			<i class="fas fa-plus-circle"></i>
+		</a>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+	function deleteCard(x) {
+		var element = document.getElementById(x);
+		element.style.height = "0";
+		element.style.borderWidth = "0";
+		element.style.margin = "0";
+		element.style.filter = "opacity(0%)";
+		setTimeout(function(){element.style.display = "none";},250);
+		var save = document.getElementById('save');
+		save.classList.remove('grey-text');
+		document.getElementById('save-wrap').classList.add('alt-hover');
+		document.getElementById('id_to_delete').value += x+';';
+	}
+	</script>
+{% endblock %}

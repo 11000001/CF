@@ -1,0 +1,14 @@
+{% extends "cf_simple.html" %}
+
+{% block title %}<title>CF | Logout</title>{% endblock %}
+{% block title-card %}
+{% endblock %}
+
+{% block content %}
+<div class="main-wrapper">
+<div  id="mainbox-small">
+	<p>Succesfully logged out!</p>  
+	<a href="{% url 'login'%}" class="themecolor-text">Log in again?</a>
+</div>
+</div> 
+{% endblock %}
