@@ -121,11 +121,13 @@
 	<div id="mid-gap" class="noshow"></div>
 	<!-- Addon Input Forms -->
 	<div id="addon-wrapper" class="main-wrapper noshow">
+		<!-- Top Navigation -->
 		<div id="addon-nav" class="center noshow">
 			{% for form, checklist, checkedlist in addon_form_list %}
 				<div id="addon-box-btn-{{ forloop.counter0 }}" class="addon-number noselect" onclick="setTop('{{ forloop.counter0 }}');">{{ forloop.counter }}</div>
 			{% endfor %}
 		</div>
+		<!-- Actual Addon Forms -->
 		{% for form, checklist, checkedlist in addon_form_list %}
 			<div id="addon-box-{{ forloop.counter0 }}" class="addon-box">
 				<div class="center">

@@ -104,6 +104,7 @@ def edit_perk(request, perk_id):
 	context = {'addon_limit':addon_limit}
 	context['page_title'] = 'Edit Perk'
 	perk = get_object_or_404(Perk,pk=perk_id)
+	#POST
 	if request.method == 'POST':
 		context['domain_form'] = DomainForm(request.POST, prefix="domain_form")
 		context['source_form'] = SourceForm(request.POST, prefix="source_form")
@@ -141,6 +142,11 @@ def edit_perk(request, perk_id):
 			i += 1
 		# Perk form is valid and every Addon form is either valid or empty
 		if valid:
+			# Save previous version if necessary
+			if datetime.date.today() - perk.previous_versions.latest('created') > timedelta(days=7):
+				
+				newVersion=Version(perk=perk, xml= , editor=request.user)
+			# Update live perk to new input
 			context['perk_form'].save()
 			i = 0
 			while i <= last:
@@ -149,14 +155,22 @@ def edit_perk(request, perk_id):
 			return redirect(reverse('index'))
 		# Included so the template knows which addons to display
 		context['last_addon_index'] = last
+	# GET
 	else:
 		context['perk_form'] = PerkForm(instance=perk, prefix="perk_form")
 		context['domain_form'] = DomainForm(prefix="domain_form")
 		context['source_form'] = SourceForm(prefix="source_form")
 		context['addon_form_list'] = [ [AddonForm(prefix="addon_form_"+str(i)), range(i), []] for i in range(addon_limit) ]
+		# Populate addon forms with previous data
 		i = 0
-		for addon in perk.addon_set:
+		for addon in perk.addon_set.all():
 			context['addon_form_list'][i][0] = AddonForm(instance=addon, prefix="addon_form_"+str(i))
+			# Set prereqs for addons within this perk
+			ii = 0
+			while ii < i:
+				if perk.addon_set.all()[ii] in addon.prereq_addons.all():
+					context['addon_form_list'][i][2].append(str(ii))
+				ii += 1
 			i += 1
 		context['last_addon_index'] = i-1
 	return render(request, 'cf_core/new_perk.html', context)
@@ -167,6 +181,8 @@ def edit_perk(request, perk_id):
 # cardbacks
 # Error on first submit doesn't show as error
 # add most recent roll selections to run model?
+# Exit from edit screen throws error
+# Currently allows chains of prereqs; close?
 
 @login_required
 def new_run(request):

@@ -74,7 +74,7 @@ class Perk (models.Model):
 	original = models.TextField(null=True, blank=True)
 	
 	def __str__(self):
-		return self.name
+		return self.name+' ['+self.domain.name+']'
 	
 	def save(self, *args, **kwargs):
 		'''
@@ -92,7 +92,7 @@ class Perk (models.Model):
 	# def update(newDict)
 	
 	class Meta:
-		ordering = ["name"]
+		ordering = ["name", "domain"]
 
 class Addon (models.Model):
 	name = models.CharField(max_length = 200) 
@@ -105,7 +105,7 @@ class Addon (models.Model):
 	prereq_addons = models.ManyToManyField("self", symmetrical=False, related_name="required_for_addons", blank=True)
 
 	def __str__(self):
-		return self.name+' ('+self.perk.name+')'
+		return self.name+' ['+self.perk.domain.name+': '+self.perk.name+']'
 	
 	def save(self, *args, **kwargs):
 		''' On save, update timestamps '''
@@ -115,7 +115,7 @@ class Addon (models.Model):
 		return super(Addon, self).save(*args, **kwargs)
 
 	class Meta:
-		ordering = ["perk","name"]
+		ordering = ["name", "perk"]
 
 class Version (models.Model):
 	number = models.PositiveIntegerField(default=0)
@@ -123,6 +123,9 @@ class Version (models.Model):
 	xml = models.TextField()
 	perk = models.ForeignKey(Perk, related_name="previous_versions", on_delete = models.CASCADE)
 	editor = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
+	
+	class Meta:
+		ordering = ["number"]
 	
 	def save(self, *args, **kwargs):
 		''' On initial save, set <created> timestamp '''
