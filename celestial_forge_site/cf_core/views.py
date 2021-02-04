@@ -100,6 +100,7 @@ def new_perk(request):
 
 @login_required
 def edit_perk(request, perk_id):
+	close_all_prereqs ()
 	addon_limit = 10
 	context = {'addon_limit':addon_limit}
 	context['page_title'] = 'Edit Perk'
@@ -144,8 +145,11 @@ def edit_perk(request, perk_id):
 		if valid:
 			# Save previous version if necessary
 			if datetime.date.today() - perk.previous_versions.latest('created') > timedelta(days=7):
-				
-				newVersion=Version(perk=perk, xml= , editor=request.user)
+				newVersion=Version(perk=perk, json=serializers.serialize('json', perk), editor=request.user)
+				i = 0
+				while i <= last:
+					newVersion.json += serializers.serialize('json', perk)
+					i += 1
 			# Update live perk to new input
 			context['perk_form'].save()
 			i = 0
@@ -163,7 +167,7 @@ def edit_perk(request, perk_id):
 		context['addon_form_list'] = [ [AddonForm(prefix="addon_form_"+str(i)), range(i), []] for i in range(addon_limit) ]
 		# Populate addon forms with previous data
 		i = 0
-		for addon in perk.addon_set.all():
+		for addon in order_addons(perk.addon_set.all()):
 			context['addon_form_list'][i][0] = AddonForm(instance=addon, prefix="addon_form_"+str(i))
 			# Set prereqs for addons within this perk
 			ii = 0
@@ -178,11 +182,11 @@ def edit_perk(request, perk_id):
 # TO DO:
 # email sending
 # addon max
-# cardbacks
+# cardbacks/links
 # Error on first submit doesn't show as error
 # add most recent roll selections to run model?
-# Exit from edit screen throws error
-# Currently allows chains of prereqs; close?
+# Exit from edit screen throws error (redirect to last)
+# check that edits are transitive
 
 @login_required
 def new_run(request):

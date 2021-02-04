@@ -120,7 +120,7 @@ class Addon (models.Model):
 class Version (models.Model):
 	number = models.PositiveIntegerField(default=0)
 	created = models.DateTimeField(editable=False)
-	xml = models.TextField()
+	json = models.TextField()
 	perk = models.ForeignKey(Perk, related_name="previous_versions", on_delete = models.CASCADE)
 	editor = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
 	

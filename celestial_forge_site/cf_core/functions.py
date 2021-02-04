@@ -1,6 +1,63 @@
 import random
 from .models import *
 
+def close_all_prereqs ():
+	'''
+	Force transitive closure of prereqs for the entire database.
+	'''
+	finished = []
+	unfinished = list(Perk.objects.all())+list(Addon.objects.all())
+	while unfinished != []:
+		current = unfinished.pop()
+		finished, unfinished = close_prereq(current, finished, unfinished)
+
+def close_prereq (current, finished, unfinished):
+	'''
+	Constructs the transitive closure of <current> and adjusts the <finished> and <unfinished> lists accordingly.
+	'''
+	# Base case: No prereqs
+	if not current.prereq_perks.exists() and not current.prereq_addons.exists():
+		finished.append(current)
+		return finished, unfinished
+	# Prereqs exist
+	else:
+		# Collect all prereqs (checking for NoneType)
+		todo = []
+		if current.prereq_perks.exists():
+			todo += list(current.prereq_perks.all())
+		if current.prereq_addons.exists():
+			todo += list(current.prereq_addons.all())
+		# Add all prereqs of prereqs (...) as prereqs of <current>
+		for prereq in todo:
+			if prereq not in finished and prereq not in unfinished:
+				raise ValueError("Cycle of prereqs detected on "+str(prereq))
+			# Recurse if prereq is unfinished
+			elif prereq not in finished:
+				unfinished.remove(prereq)
+				finished, unfinished = close_prereq (prereq, finished, unfinished)
+			# Close current prereqs (all of these should now be finished)
+			if prereq.prereq_perks.exists():
+				for new_perk_prereq in prereq.prereq_perks.all():
+					current.prereq_perks.add(new_perk_prereq)
+			if prereq.prereq_addons.exists():
+				for new_addon_prereq in prereq.prereq_addons.all():
+					current.prereq_addons.add(new_addon_prereq)
+		finished.append(current)
+		return finished, unfinished
+
+def num_prereqs(prereq_model):
+	'''
+	Returns the number of prereqs for <prereq_model>.
+	'''
+	return prereq_model.prereq_perks.all().count()+prereq_model.prereq_addons.all().count()
+
+def order_addons (prereq_models):
+	'''
+	Takes a query set of models with prereqs and returns a list of these models where prereqs always appear earlier.
+	'''
+	list(prereq_models).sort(key=num_prereqs)
+	return prereq_models
+
 def random_domain (run):
 	'''
 	Returns a random domain.
