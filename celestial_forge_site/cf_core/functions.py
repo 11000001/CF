@@ -1,6 +1,27 @@
 import random
 from .models import *
 
+def one_step_close_prereq (origin):
+	'''
+	Adds all prereqs for prereqs of <origin> as prereqs of <origin>.
+	'''
+	# Prereqs exist
+	if origin.prereq_perks.exists() or origin.prereq_addons.exists():
+		# Collect all prereqs into <todo> (checking for NoneType)
+		todo = []
+		if origin.prereq_perks.exists():
+			todo += list(origin.prereq_perks.all())
+		if origin.prereq_addons.exists():
+			todo += list(origin.prereq_addons.all())
+		# Add all prereqs of prereqs as prereqs of <origin>
+		for prereq in todo:
+			if prereq.prereq_perks.exists():
+				for new_perk_prereq in prereq.prereq_perks.all():
+					origin.prereq_perks.add(new_perk_prereq)
+			if prereq.prereq_addons.exists():
+				for new_addon_prereq in prereq.prereq_addons.all():
+					origin.prereq_addons.add(new_addon_prereq)
+
 def close_all_prereqs ():
 	'''
 	Force transitive closure of prereqs for the entire database.

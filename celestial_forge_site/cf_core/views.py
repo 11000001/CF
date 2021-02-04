@@ -81,10 +81,13 @@ def new_perk(request):
 			i += 1
 		# Perk form is valid and every Addon form is either valid or empty
 		if valid:
-			context['perk_form'].save()
+			new_perk = context['perk_form'].save()
+			one_step_close_prereq(new_perk)
 			i = 0
 			while i <= last:
-				context['addon_form_list'][i][0].save()
+				new_addon = context['addon_form_list'][i][0].save()
+				new_addon.prereq_perks.add(new_perk)
+				one_step_close_prereq(new_addon)
 				i += 1
 			return redirect(reverse('index'))
 		# Included so the template knows which addons to display
@@ -151,10 +154,13 @@ def edit_perk(request, perk_id):
 					newVersion.json += serializers.serialize('json', perk)
 					i += 1
 			# Update live perk to new input
-			context['perk_form'].save()
+			new_perk = context['perk_form'].save()
+			one_step_close_prereq(new_perk)
 			i = 0
 			while i <= last:
-				context['addon_form_list'][i][0].save()
+				new_addon = context['addon_form_list'][i][0].save()
+				new_addon.prereq_perks.add(new_perk)
+				one_step_close_prereq(new_addon)
 				i += 1
 			return redirect(reverse('index'))
 		# Included so the template knows which addons to display
@@ -186,7 +192,6 @@ def edit_perk(request, perk_id):
 # Error on first submit doesn't show as error
 # add most recent roll selections to run model?
 # Exit from edit screen throws error (redirect to last)
-# check that edits are transitive
 
 @login_required
 def new_run(request):
