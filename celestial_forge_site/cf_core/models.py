@@ -126,6 +126,9 @@ class Version (models.Model):
 	
 	class Meta:
 		ordering = ["number"]
+
+	def __str__(self):
+		return self.perk.name+" [Version "+str(self.created)+']'
 	
 	def save(self, *args, **kwargs):
 		''' On initial save, set <created> timestamp '''
@@ -142,6 +145,12 @@ class Run (models.Model):
 	
 	class Meta:
 		ordering = ["last_update"]
+
+	def __str__(self):
+		if self.run.name:
+			return self.owner.username+"'s "+self.name
+		else:
+			return self.owner.username+"'s Unnamed Run"
 	
 	def save(self, *args, **kwargs):
 		''' On save, update timestamps '''
@@ -179,6 +188,12 @@ class Attempt (models.Model):
 	
 	class Meta:
 		ordering = ["number"]
+
+	def __str__(self):
+		if self.run.name:
+			return '['+self.run.owner.username+"::"+self.run.name+"] Attempt #"+str(self.number)+" ("+self.perk.name+')'
+		else:
+			return '['+self.run.owner.username+":: Unnamed Run] Attempt #"+str(self.number)+" ("+self.perk.name+')'
 
 	def save(self, *args, **kwargs):
 		''' On save, update timestamps '''

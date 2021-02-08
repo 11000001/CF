@@ -187,6 +187,38 @@ def random_affordable_addon (run, perk, CP):
 		return None
 	return affordable_list[random.randint(0, len(affordable_list)-1)]
 
+def max_addon (run, perk, CP):
+	'''
+	Returns a pair <(option, total_cost)>.  <option> is a list of unsecured addons from the perk <perk> whose total cost is maximal among affordable addon selections; 
+	<total_cost> is this cost. Ties are broken randomly.  Returns <None> if no such list exists.
+	'''
+	print("in max addon")
+	addons = perk.addon_set.all()
+	affordable_list = []
+	for addon in addons:
+		print("addons exist!")
+		# if unlocked
+		if not run.attempts.filter(perk=perk, locked=True, addons__id=addon.id).exists():
+			total_cost = addon.cost
+			option = [addon]
+			# Add other addons from this perk required by this one
+			for prereq_addon in addon.prereq_addons.all():
+				if prereq_addon.perk == perk and not run.attempts.filter(perk=perk, locked=True, addons__id=prereq_addon.id).exists():
+					total_cost += prereq_addon.cost
+					option.append(prereq_addon)
+				if total_cost > CP:
+					print("option too expensive")
+					break
+			if total_cost <= CP:
+				print("should be an addon")
+				if affordable_list == [] or affordable_list[0][1] < total_cost:
+					affordable_list = [(option, total_cost)]
+				elif affordable_list[0][1] == total_cost:
+					affordable_list.append((option, total_cost))
+	if affordable_list == []:
+		return None
+	return affordable_list[random.randint(0, len(affordable_list)-1)]
+
 def prereqs_satisfied (run, prereq_perks, prereq_addons):
 	'''
 	Checks that all <prereq_perks> and <prereq_addons> have already been locked in <run>, returning <True> if they have and <False> otherwise.
@@ -217,8 +249,8 @@ def select (run, CP, domain_method="random", perk_method="random", addon_method=
 		return select(run, CP, domain_method, perk_method, addon_method, timeout-1)
 	# Can't afford perk or prereqs not satisfied
 	elif CP < perk.cost or not prereqs_satisfied(run, perk.prereq_perks, perk.prereq_addons):
-		a=Attempt(domain=domain, perk=perk, cp=CP, locked=False, run=run, number=run.get_current_number()+1)
-		a.save()
+		attempt=Attempt(domain=domain, perk=perk, cp=CP, locked=False, run=run, number=run.get_current_number()+1)
+		attempt.save()
 		return False
 	# Can afford perk
 	else:
@@ -230,19 +262,21 @@ def select (run, CP, domain_method="random", perk_method="random", addon_method=
 		if addon_pair is not None and addon_pair[1]<=CP:
 			for addon in addon_pair[0]:
 				#Prereq failure; no addons
-				if not prereqs_satisfied(run, addon.prereq_perks, addon.prereq_addons.exclude(perk=perk)):
-					Attempt(domain=domain, perk=perk, cp=CP, locked=True, run=run, number=run.get_current_number()+1)
-					a.save()
+				if not prereqs_satisfied(run, addon.prereq_perks.exclude(pk=perk.id), addon.prereq_addons.exclude(perk=perk)):
+					attempt = Attempt(domain=domain, perk=perk, cp=CP, locked=True, run=run, number=run.get_current_number()+1)
+					attempt.save()
 					return True
-			a=Attempt(domain=domain, perk=perk, cp=CP-addon_pair[1], locked=True, run=run, number=run.get_current_number()+1)
+			# No prereq failures
+			attempt=Attempt(domain=domain, perk=perk, cp=CP-addon_pair[1], locked=True, run=run, number=run.get_current_number()+1)
+			attempt.save()
 			for addon in addon_pair[0]:
-				a.addons.add(addon)
-			a.save()
+				attempt.addons.add(addon)
+			attempt.save()
 			return True
 		# Not found or too costly; no addons
 		else:
-			a=Attempt(domain=domain, perk=perk, cp=CP, locked=True, run=run, number=run.get_current_number()+1)
-			a.save()
+			attempt=Attempt(domain=domain, perk=perk, cp=CP, locked=True, run=run, number=run.get_current_number()+1)
+			attempt.save()
 			return True
 
 def fixed_CP(value):

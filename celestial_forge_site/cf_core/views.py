@@ -187,11 +187,22 @@ def edit_perk(request, perk_id):
 
 # TO DO:
 # email sending
-# addon max
 # cardbacks/links
+
 # Error on first submit doesn't show as error
+
 # add most recent roll selections to run model?
-# Exit from edit screen throws error (redirect to last)
+# menu open not working in general
+# check that youtube and wikipedia links are in fact youtube and wikipedia links
+# don't show link buttons unless they exist
+# Scrolling cards doesn't work?
+
+# create indices for database
+# editperk and newperk is really slow
+# perk cards have edge clippling on left side
+# commas for CP
+# drop brackets for CP on cards?
+# improve str output for some models
 
 @login_required
 def new_run(request):
