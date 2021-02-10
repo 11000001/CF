@@ -55,8 +55,17 @@ def new_perk(request):
 			new_domain = context['domain_form'].save()
 			updated_request.update({'perk_form-domain': new_domain})
 		if context['source_form'].is_valid():
+			if not is_wikipedia_url(request.POST.get("source_form-url_wikipedia",'')):
+				updated_request.update({"source_form-url_wikipedia":''})
+				context['source_form'] = SourceForm(updated_request, prefix="source_form")
 			new_source = context['source_form'].save()
 			updated_request.update({'perk_form-source': new_source})
+		# Check urls; erasing if not appropriate
+		if not is_youtube_url(updated_request.get("perk_form-url_youtube",'')):
+			updated_request.update({"perk_form-url_youtube":''})
+		if not is_wikipedia_url(updated_request.get("perk_form-url_wikipedia",'')):
+			updated_request.update({"perk_form-url_wikipedia":''})
+		updated_request.update({"perk_form-last_editor":request.user})
 		context['perk_form'] = PerkForm(updated_request, request.FILES, prefix="perk_form")
 		# Check the resulting perk form and all addon forms for validity
 		valid = context['perk_form'].is_valid()
@@ -112,17 +121,33 @@ def edit_perk(request, perk_id):
 	if request.method == 'POST':
 		context['domain_form'] = DomainForm(request.POST, prefix="domain_form")
 		context['source_form'] = SourceForm(request.POST, prefix="source_form")
-		# List of triples: 1 - Form, 2- Prereq numbers to be displayed, 3- Checked prereq numbers
-		context['addon_form_list'] = [ [AddonForm(request.POST, prefix="addon_form_"+str(i)), range(i), []] for i in range(addon_limit) ]
+		# Populate addonForms into a list of triples: 1 - Form, 2- Prereq numbers to be displayed, 3- Checked prereq numbers
+		context['addon_form_list'] =[]
+		i=0
+		for addon in perk.addon_set.all():
+			context['addon_form_list'].append([AddonForm(request.POST, instance=addon, prefix="addon_form_"+str(i)), range(i), []])
+			i+=1
+		while i < addon_limit:
+			context['addon_form_list'].append([AddonForm(request.POST, prefix="addon_form_"+str(i)), range(i), []])
+			i+=1
 		# Check for new domain/source; if they exist, record for later update
 		updated_request = request.POST.copy()
 		if context['domain_form'].is_valid():
 			new_domain = context['domain_form'].save()
 			updated_request.update({'perk_form-domain': new_domain})
 		if context['source_form'].is_valid():
+			if not is_wikipedia_url(request.POST.get("source_form-url_wikipedia",'')):
+				updated_request.update({"source_form-url_wikipedia":''})
+				context['source_form'] = SourceForm(updated_request, prefix="source_form")
 			new_source = context['source_form'].save()
 			updated_request.update({'perk_form-source': new_source})
-		context['perk_form'] = PerkForm(updated_request, request.FILES, prefix="perk_form")
+		# Check urls; erasing if not appropriate
+		if not is_youtube_url(updated_request.get("perk_form-url_youtube",'')):
+			updated_request.update({"perk_form-url_youtube":''})
+		if not is_wikipedia_url(updated_request.get("perk_form-url_wikipedia",'')):
+			updated_request.update({"perk_form-url_wikipedia":''})
+		updated_request.update({"perk_form-last_editor":request.user})
+		context['perk_form'] = PerkForm(updated_request, request.FILES, instance=perk, prefix="perk_form")
 		# Check the resulting perk form and all addon forms for validity
 		valid = context['perk_form'].is_valid()
 		# Track the last addon form with input
@@ -147,12 +172,11 @@ def edit_perk(request, perk_id):
 		# Perk form is valid and every Addon form is either valid or empty
 		if valid:
 			# Save previous version if necessary
-			if datetime.date.today() - perk.previous_versions.latest('created') > timedelta(days=7):
-				newVersion=Version(perk=perk, json=serializers.serialize('json', perk), editor=request.user)
-				i = 0
-				while i <= last:
-					newVersion.json += serializers.serialize('json', perk)
-					i += 1
+			if not perk.previous_versions.all().exists() or timezone.now() - perk.previous_versions.latest('created') > timezone.timedelta(days=7):
+				newVersion=Version(perk=perk, json=serializers.serialize('json', Perk.objects.filter(pk=perk.id)), editor=request.user)
+				for addon in perk.addon_set.all():
+					newVersion.json += serializers.serialize('json', Addon.objects.filter(pk=addon.id))
+				newVersion.save()
 			# Update live perk to new input
 			new_perk = context['perk_form'].save()
 			one_step_close_prereq(new_perk)
@@ -186,22 +210,20 @@ def edit_perk(request, perk_id):
 	return render(request, 'cf_core/new_perk.html', context)
 
 # TO DO:
-# email sending
-# cardbacks/links
+# actual email sending
+# links
 
 # Error on first submit doesn't show as error
+# go backwards on edit/new perk succesful submit
 
 # add most recent roll selections to run model?
 # menu open not working in general
-# check that youtube and wikipedia links are in fact youtube and wikipedia links
 # don't show link buttons unless they exist
-# Scrolling cards doesn't work?
+# Scrolling cards suddenly doesn't work?
 
 # create indices for database
 # editperk and newperk is really slow
 # perk cards have edge clippling on left side
-# commas for CP
-# drop brackets for CP on cards?
 # improve str output for some models
 
 @login_required
@@ -237,6 +259,6 @@ def run(request, run_id):
 			form = SelectionDropForm(request.session)
 		else:
 			form = SelectionDropForm()
-	context['CP'] = run.get_current_cp()
+	context['CP'] = run.get_current_cp_formatted
 	context['form']=form
 	return render(request, "cf_core/run.html", context)

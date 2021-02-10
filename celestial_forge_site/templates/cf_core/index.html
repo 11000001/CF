@@ -41,7 +41,7 @@
 		{% for run in runs %}
 			<div id='{{ run.id }}' class="card card-default-style">
 				<a class="overlay-container notd" href="run/{{ run.id }}">
-					<img class="banner" src="{{ run.forge.banner.url }}" />
+					<img class="banner" src={{ run.forge.get_banner_url }} />
 					<div class="card-left black-text"> 
 						{% if run.name %}
 							<b>{{ run.name }}</b>
@@ -49,7 +49,7 @@
 							<b>Run #{{ run.id }}</b>
 						{% endif %}
 						<ul class="forge-list">
-							<li><b>CP:</b> {{ run.get_current_cp }}</li>
+							<li><b>CP:</b> {{ run.get_current_cp_formatted }}</li>
 							<li><b>Perks:</b> {{ run.get_number_locked }}</li>
 							<li><b>Attempts:</b> {{ run.get_current_number|add:1 }}</li>
 							<li><b>Last update:</b> {{ run.last_update|date:"DATE_FORMAT" }}</li>

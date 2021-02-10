@@ -1,6 +1,18 @@
 import random
 from .models import *
 
+def is_youtube_url(url):
+	'''
+	Checks whether <url> is a youtube url (but not validity). 
+	'''
+	return url.startswith("http://www.youtube.com/") or url.startswith("www.youtube.com/") or url.startswith("https://www.youtube.com/")
+
+def is_wikipedia_url(url):
+	'''
+	Checks whether <url> is a wikipedia url (but not validity). 
+	'''
+	return url.startswith("https://en.wikipedia.org/wiki/") or url.startswith("en.wikipedia.org/wiki/") or url.startswith("http://en.wikipedia.org/wiki/")
+
 def one_step_close_prereq (origin):
 	'''
 	Adds all prereqs for prereqs of <origin> as prereqs of <origin>.

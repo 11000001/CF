@@ -132,7 +132,7 @@
 						</div>
 						<div class="fill"></div>
 						<div class="card-sup-cost">
-						[{{ attempt.perk.cost}} CP]
+						{{ attempt.perk.cost}} CP
 						</div>
 					</div>
 					<h2 class="card-title">
@@ -163,7 +163,7 @@
 						</div>
 						<div class="fill"> </div>
 						<div class="card-sup-cost">
-							[{{ attempt.perk.cost}} CP]
+							{{ attempt.perk.cost}} CP
 						</div>
 					</div>
 						<h2 class="card-title">
@@ -186,7 +186,7 @@
 					</div>
 				</div>
 			{% endif %}
-			<img id="back-{{ forloop.counter0 }}" class="cardback flip-back" src="{% static 'forge.gif' %}" alt="Cardback" onclick="">
+			<img id="back-{{ forloop.counter0 }}" class="cardback flip-back" src={{ attempt.perk.get_background_url }} alt="Cardback" onclick="">
 			</div>
 		{% endfor %}
 		<div id='card-wrapper-bot' class="card-wrapper min">

@@ -20,6 +20,13 @@ class Forge (models.Model):
 			self.created = timezone.now()
 		self.last_update = timezone.now()
 		return super(Forge, self).save(*args, **kwargs)
+	
+	@property
+	def get_banner_url(self):
+		if self.banner and hasattr(self.banner, 'url'):
+			return self.banner.url
+		else:
+			return "/static/networkcircle--GerdAltmann.png"
 
 class Domain (models.Model):
 	name = models.CharField(max_length = 200) 
@@ -89,7 +96,12 @@ class Perk (models.Model):
 		self.last_update = timezone.now()
 		return super(Perk, self).save(*args, **kwargs)
 	
-	# def update(newDict)
+	@property
+	def get_background_url(self):
+		if self.background and hasattr(self.background, 'url'):
+			return self.background.url
+		else:
+			return "/static/forge.gif"
 	
 	class Meta:
 		ordering = ["name", "domain"]
@@ -134,7 +146,7 @@ class Version (models.Model):
 		''' On initial save, set <created> timestamp '''
 		if not self.id:
 			self.created = timezone.now()
-		return super(Source, self).save(*args, **kwargs)
+		return super(Version, self).save(*args, **kwargs)
 
 class Run (models.Model):
 	name = models.CharField(max_length = 200, blank=True, null=True)
@@ -147,7 +159,7 @@ class Run (models.Model):
 		ordering = ["last_update"]
 
 	def __str__(self):
-		if self.run.name:
+		if self.name:
 			return self.owner.username+"'s "+self.name
 		else:
 			return self.owner.username+"'s Unnamed Run"
@@ -159,9 +171,17 @@ class Run (models.Model):
 		self.last_update = timezone.now()
 		return super(Run, self).save(*args, **kwargs)
 	
+	@property
 	def get_current_cp (self):
 		if self.attempts.exists():
 			return self.attempts.order_by('number').last().cp
+		else:
+			return 0
+	
+	@property
+	def get_current_cp_formatted (self):
+		if self.attempts.exists():
+			return f"{self.attempts.order_by('number').last().cp:,}"
 		else:
 			return 0
 	

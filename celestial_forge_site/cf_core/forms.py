@@ -26,7 +26,7 @@ class PerkForm (forms.ModelForm):
 	
 	class Meta:
 		model = Perk
-		fields = ['name', 'description', 'cost', 'source', 'domain', 'prereq_perks', 'prereq_addons','url_wikipedia','url_youtube','background']
+		fields = ['name', 'description', 'cost', 'source', 'domain', 'prereq_perks', 'prereq_addons','url_wikipedia','url_youtube','background', 'last_editor']
 		widgets = {
 			'url_wikipedia': forms.URLInput(attrs={'placeholder': 'Wikipedia URL'}),
 			'url_youtube': forms.URLInput(attrs={'placeholder': 'Youtube URL'})
