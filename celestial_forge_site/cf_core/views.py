@@ -22,7 +22,6 @@ from .models import *
 # create new account not showing password errors
 # DRY: do form handling with form methods
 # add most recent roll selections to run model?
-# create indices for database
 # editperk and newperk are really slow
 # perk cards have edge clippling on left side
 # improve str output for some models (f-strings)
