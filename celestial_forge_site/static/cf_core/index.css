@@ -115,14 +115,9 @@ ul.forge-list{
 	outline: 2px dashed black;
 	outline-offset: -5px;
 	border-width: 0px;
-	transition: transform 1s;
 	line-height:7rem;
 	font-size: 4rem;
 	padding-left: 4rem;
-}
-
-.card-new:active {
-	transform: scale(.25);
 }
 
 .card-new:hover {

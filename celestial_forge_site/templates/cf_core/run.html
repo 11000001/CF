@@ -143,7 +143,7 @@
 					{% endfor %} 
 					</ul> 
 					<div class="card-bottom-container">
-						<div id="card-source">{{ attempt.perk.source }}</div>
+						<a class="card-source" href={{ attempt.perk.source.url_wikipedia }}>{{ attempt.perk.source.name }}</a>
 						<div class="fill"> </div>
 						{% if attempt.perk.url_wikipedia != None %}
 							<a class="tag" href={{ attempt.perk.url_wikipedia }}>Wikipedia</a>
@@ -217,9 +217,16 @@
 	}
 	</script>
 	<script>
+	var drop = document.getElementById('settings_wrap');
+	if ({{ form.open_settings.value }}=="1"){
+		drop.classList.add("show");
+		drop.classList.add("flipped-back");
+		document.getElementById("settings-btn-wrap").classList.add("alt-back");
+	}
+
 	function toggleDrop(x,y,z) {
 		var drop = document.getElementById(x);
-		if (drop.classList.contains('show')){
+		if (drop.classList.contains("show")){
 			setTimeout(function(){drop.classList.remove("show");},501);
 			drop.classList.remove('flipped-back');
 			document.getElementById(y).classList.remove(z);
@@ -233,9 +240,6 @@
 		} else if (x == 'settings_wrap'){
 			document.getElementById('id_open_settings').value='0';
 		}
-		}
-	if ({{ form.open_settings.value }}=="1"){
-		toggleDrop('settings_wrap','settings-btn-wrap', 'alt-back');
 	}
 	</script>
 {% endblock %}

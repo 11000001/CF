@@ -63,12 +63,12 @@ class SelectionDropForm(forms.Form):
 	
 	
 	domain_method = forms.ChoiceField(label='Domain', help_text="Choose a method for selecting the domain that new perks will be drawn from.", choices=DOMAIN_CHOICES, widget=forms.RadioSelect, initial="random")
-	perk_method = forms.ChoiceField(label='Perk', help_text="Choose a method for selecting perks.", choices=PERK_CHOICES, widget=forms.RadioSelect)
-	addon_method = forms.ChoiceField(label='Addon', help_text="Choose a method for selecting addons.", choices=ADDON_CHOICES, widget=forms.RadioSelect)
-	cp_method = forms.ChoiceField(label='CP', help_text="Choose a method for gaining CP.", choices=CP_CHOICES, widget=forms.RadioSelect)
+	perk_method = forms.ChoiceField(label='Perk', help_text="Choose a method for selecting perks.", choices=PERK_CHOICES, widget=forms.RadioSelect, initial="random")
+	addon_method = forms.ChoiceField(label='Addon', help_text="Choose a method for selecting addons.", choices=ADDON_CHOICES, widget=forms.RadioSelect, initial="random")
+	cp_method = forms.ChoiceField(label='CP', help_text="Choose a method for gaining CP.", choices=CP_CHOICES, widget=forms.RadioSelect, initial="fixed")
 	cp_fixed_value = forms.RegexField(label='CP [Fixed]', regex="\d+", initial="100", required=False)
 	cp_random_value = forms.RegexField(label='CP [Random]', regex="(\d+\-\d+)|\d+", initial="0-100", required=False)
-	open_settings = forms.RegexField(label='CP - hide', regex="[10]", initial="0", required=False, widget=forms.HiddenInput())
+	open_settings = forms.RegexField(label='CP - hide', regex="[10]", initial="1", required=False, widget=forms.HiddenInput())
 
 	def clean(self):
 		cp_method = self.cleaned_data.get('cp_method')

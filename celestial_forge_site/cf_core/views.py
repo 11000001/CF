@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 
 from .forms import *
@@ -13,15 +13,15 @@ from .models import *
 
 # Error on first submit doesn't show as error
 # new card button not the right size
-# can't click links/colored
+# can't click links
 # Scrolling cards suddenly doesn't work?
-# logging in maps to profile rather than index
+# magnify doesn't work right when you only have one row
 
 # actual email sending(?)
 
-# DRY: do form handling with form methods?
+# create new account not showing password errors
+# DRY: do form handling with form methods
 # add most recent roll selections to run model?
-# Make sources links?
 # create indices for database
 # editperk and newperk are really slow
 # perk cards have edge clippling on left side
@@ -30,6 +30,13 @@ from .models import *
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('logout'))
+
+def guest(request):
+	username = 'guest'
+	user = authenticate(request, username=username, password=GUEST_PASSWORD)
+	if user is not None:
+		login(request, user)
+		return HttpResponseRedirect(reverse('index'))
 
 @login_required
 def index(request):
@@ -116,6 +123,8 @@ def new_perk(request):
 				new_addon.prereq_perks.add(new_perk)
 				one_step_close_prereq(new_addon)
 				i += 1
+			unlimited_forge = get_object_or_404(Forge,pk=1)
+			unlimited_forge.perks.add(new_perk)
 			return redirect(reverse('index'))
 		# Included so the template knows which addons to display
 		context['last_addon_index'] = last
@@ -135,7 +144,6 @@ def edit_perk(request, perk_id):
 	context = {'addon_limit':addon_limit}
 	context['page_title'] = 'Edit Perk'
 	perk = get_object_or_404(Perk,pk=perk_id)
-	#POST
 	if request.method == 'POST':
 		context['domain_form'] = DomainForm(request.POST, prefix="domain_form")
 		context['source_form'] = SourceForm(request.POST, prefix="source_form")
@@ -208,7 +216,6 @@ def edit_perk(request, perk_id):
 		# Included so the template knows which addons to display
 		context['last_addon_index'] = last
 		context['next'] = request.POST['next']
-	# GET
 	else:
 		context['next'] = request.GET['next']
 		context['perk_form'] = PerkForm(instance=perk, prefix="perk_form")
@@ -239,6 +246,8 @@ def new_run(request):
 def run(request, run_id):
 	context = {}
 	run = get_object_or_404(Run,pk=run_id)
+	if run.owner != request.user:
+		return redirect(reverse('index'))
 	context['run_id'] = run.id
 	if run.name:
 		context['run_name'] = run.name
@@ -256,12 +265,12 @@ def run(request, run_id):
 				request.session[k] = v
 		return HttpResponseRedirect(reverse('run', kwargs={'run_id':run_id}))
 	else:
-		# set text input to default if empty?
 		# If not a new run and saved info, set form info off session
 		if run.attempts.exists() and 'domain_method' in request.session:
 			form = SelectionDropForm(request.session)
 		else:
 			form = SelectionDropForm()
+			request.session['open_settings']='1'
 	context['CP'] = run.get_current_cp_formatted
 	context['form']=form
 	return render(request, "cf_core/run.html", context)
