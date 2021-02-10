@@ -30,72 +30,64 @@
 	<!-- Store whether settings are currently displayed -->
 	{{ form.open_settings }}
 	<!-- Main Dropdown Menu -->
-	{% if form.open_settings.value != '1' %}
-		<div id='settings-btn-wrap' class="nav-btn-wrapper alt-hover">
-	{% else %}
-		<div id='settings-btn-wrap' class="nav-btn-wrapper alt-back">
-	{% endif %}
+	<div id='settings-btn-wrap' class="nav-btn-wrapper alt-hover">
 		<div class="nav-btn" onclick="toggleDrop('settings_wrap','settings-btn-wrap', 'alt-back')">
 			<i class="fas fa-cog"></i>
 		</div>
-		</div>
-		<!-- Dropdown -->
-		{% if form.open_settings.value != '1' %}
-			<div id='settings_wrap' class="dropdown-wrapper flip-back">
-		{% else %}
-			<div id='settings_wrap' class="dropdown-wrapper show flip-back">
-		{% endif %}
-			<div id='settings_menu' class="dropdown noselect">
-				{% for field in form %}
-					{% if field.label == 'CP' %}
-						<!-- CP Field -->
-						<div class="spacer">
-						{% if field.errors %}
-							<span class="error-color"> {{ field.label }}</span>
-							{% for error in field.errors %}
-								<span class="error-color small-text"> - {{ error|escape }} </span>
-							{% endfor %}
-						{% else %}
-							{{ field.label }}
-						{% endif %}
-						{% for choice in field %}
-							<!-- CP Dropdown Menu Item -->
-							{{ choice.tag }}
-							<label class="menu-item wiggle" for="{{ choice.id_for_label }}">
-								<div class="radiobox"> </div>{{ choice.choice_label }}
-								{% if choice.choice_label == 'Random' %}
-									<!-- Text input -->
-									{{ form.cp_random_value }}
-								{% else %}
-									<!-- Text input -->
-									{{ form.cp_fixed_value }}
-								{% endif %}
-							</label>
+	</div>
+	<!-- Dropdown -->
+	<div id='settings_wrap' class="dropdown-wrapper flip-back">
+		<div id='settings_menu' class="dropdown noselect">
+			{% for field in form %}
+				{% if field.label == 'CP' %}
+					<!-- CP Field -->
+					<div class="spacer">
+					{% if field.errors %}
+						<span class="error-color"> {{ field.label }}</span>
+						{% for error in field.errors %}
+							<span class="error-color small-text"> - {{ error|escape }} </span>
 						{% endfor %}
-						</div>
-					{% elif 'CP' not in field.label %}
-						<!-- Normal Field -->
-						<div class="spacer">
-						{% if field.errors %}
-							<span class="error-color"> {{ field.label }}</span>
-							{% for error in field.errors %}
-								<span class="error-color small-text"> - {{ error|escape }} </span>
-							{% endfor %}
-						{% else %}
-							{{ field.label }}
-						{% endif %}
-						{% for choice in field %}
-							<!-- Normal Menu Item -->
-							{{ choice.tag }}
-							<label class="menu-item wiggle" for="{{ choice.id_for_label }}">
-								<div class="radiobox"> </div>{{ choice.choice_label }}
-							</label>
-						{% endfor %}
-							</div>
+					{% else %}
+						{{ field.label }}
 					{% endif %}
-				{% endfor %}
-			</div>
+					{% for choice in field %}
+						<!-- CP Dropdown Menu Item -->
+						{{ choice.tag }}
+						<label class="menu-item wiggle" for="{{ choice.id_for_label }}">
+							<div class="radiobox"> </div>{{ choice.choice_label }}
+							{% if choice.choice_label == 'Random' %}
+								<!-- Text input -->
+								{{ form.cp_random_value }}
+							{% else %}
+								<!-- Text input -->
+								{{ form.cp_fixed_value }}
+							{% endif %}
+						</label>
+					{% endfor %}
+					</div>
+				{% elif 'CP' not in field.label %}
+					<!-- Normal Field -->
+					<div class="spacer">
+					{% if field.errors %}
+						<span class="error-color"> {{ field.label }}</span>
+						{% for error in field.errors %}
+							<span class="error-color small-text"> - {{ error|escape }} </span>
+						{% endfor %}
+					{% else %}
+						{{ field.label }}
+					{% endif %}
+					{% for choice in field %}
+						<!-- Normal Menu Item -->
+						{{ choice.tag }}
+						<label class="menu-item wiggle" for="{{ choice.id_for_label }}">
+							<div class="radiobox"> </div>{{ choice.choice_label }}
+						</label>
+					{% endfor %}
+						</div>
+				{% endif %}
+			{% endfor %}
 		</div>
+	</div>
 	</form>
 	<!--Current CP Display -->
 	<div id="current-cp">
@@ -120,43 +112,15 @@
 					<div class="card-btn" onclick="flip('front-{{ forloop.counter0 }}','back-{{ forloop.counter0 }}')">
 						<i class="fas fa-retweet"></i>
 					</div>
-					<a href="{% url 'edit-perk' perk_id=attempt.perk.id %}" class="card-btn">
+					<a href="{% url 'edit-perk' perk_id=attempt.perk.id %}?next={{ request.path|urlencode }}" class="card-btn">
 						<i class="fas fa-edit"></i>
 					</a>
 				</div>
 			{% if attempt.locked %}
 				<div id="front-{{ forloop.counter0 }}" class="card card-default noselect flip-front" onmouseleave="tscroll(this)" onclick="toggleMag(this)">
-					<div class="card-sup-container">
-						<div class="card-sup-title">
-							{{ attempt.domain.name }}
-						</div>
-						<div class="fill"></div>
-						<div class="card-sup-cost">
-						{{ attempt.perk.cost}} CP
-						</div>
-					</div>
-					<h2 class="card-title">
-						{{ attempt.perk.name }}
-					</h2>
-					<hr>
-					<p>
-						{{ attempt.perk.description }}
-					</p>
-					<ul> 
-					{% for addon in attempt.addons.all %} 
-						<li> <i> {{ addon.name }} </i> - {{ addon.description }}</li> 
-					{% endfor %} 
-					</ul> 
-					
-					<div class="card-bottom-container">
-						<div id="card-source">{{ attempt.perk.source }}</div>
-						<div class="fill"> </div>
-						<div class="tag" onclick="location.href={{ attempt.perk.url_wikipedia }};">Wikipedia</div>
-						<div class="tag" onclick="location.href={{ attempt.perk.url_youtube }};">Youtube</div>
-					</div>
-				</div>
 			{% else %}
 				<div id="front-{{ forloop.counter0 }}" class="card card-fade noselect flip-front" onmouseleave="tscroll(this)" onclick="toggleMag(this)">
+			{% endif %}
 					<div class="card-sup-container">
 						<div class="card-sup-title">
 							{{ attempt.domain.name }}
@@ -181,11 +145,14 @@
 					<div class="card-bottom-container">
 						<div id="card-source">{{ attempt.perk.source }}</div>
 						<div class="fill"> </div>
-						<div class="tag" onclick="location.href={{ attempt.perk.url_wikipedia }};">Wikipedia</div>
-						<div class="tag" onclick="location.href={{ attempt.perk.url_youtube }};">Youtube</div>
+						{% if attempt.perk.url_wikipedia != None %}
+							<a class="tag" href={{ attempt.perk.url_wikipedia }}>Wikipedia</a>
+						{% endif %}
+						{% if attempt.perk.url_youtube != None %}
+							<a class="tag" href={{ attempt.perk.url_youtube }}>Youtube</a>
+						{% endif %}
 					</div>
 				</div>
-			{% endif %}
 			<img id="back-{{ forloop.counter0 }}" class="cardback flip-back" src={{ attempt.perk.get_background_url }} alt="Cardback" onclick="">
 			</div>
 		{% endfor %}
@@ -266,6 +233,9 @@
 		} else if (x == 'settings_wrap'){
 			document.getElementById('id_open_settings').value='0';
 		}
+		}
+	if ({{ form.open_settings.value }}=="1"){
+		toggleDrop('settings_wrap','settings-btn-wrap', 'alt-back');
 	}
 	</script>
 {% endblock %}

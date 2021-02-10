@@ -9,6 +9,24 @@ from .forms import *
 from .functions import *
 from .models import *
 
+# TO DO:
+
+# Error on first submit doesn't show as error
+# new card button not the right size
+# can't click links/colored
+# Scrolling cards suddenly doesn't work?
+# logging in maps to profile rather than index
+
+# actual email sending(?)
+
+# DRY: do form handling with form methods?
+# add most recent roll selections to run model?
+# Make sources links?
+# create indices for database
+# editperk and newperk are really slow
+# perk cards have edge clippling on left side
+# improve str output for some models (f-strings)
+
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('logout'))
@@ -186,11 +204,13 @@ def edit_perk(request, perk_id):
 				new_addon.prereq_perks.add(new_perk)
 				one_step_close_prereq(new_addon)
 				i += 1
-			return redirect(reverse('index'))
+			return redirect(request.POST['next'])
 		# Included so the template knows which addons to display
 		context['last_addon_index'] = last
+		context['next'] = request.POST['next']
 	# GET
 	else:
+		context['next'] = request.GET['next']
 		context['perk_form'] = PerkForm(instance=perk, prefix="perk_form")
 		context['domain_form'] = DomainForm(prefix="domain_form")
 		context['source_form'] = SourceForm(prefix="source_form")
@@ -208,23 +228,6 @@ def edit_perk(request, perk_id):
 			i += 1
 		context['last_addon_index'] = i-1
 	return render(request, 'cf_core/new_perk.html', context)
-
-# TO DO:
-# actual email sending
-# links
-
-# Error on first submit doesn't show as error
-# go backwards on edit/new perk succesful submit
-
-# add most recent roll selections to run model?
-# menu open not working in general
-# don't show link buttons unless they exist
-# Scrolling cards suddenly doesn't work?
-
-# create indices for database
-# editperk and newperk is really slow
-# perk cards have edge clippling on left side
-# improve str output for some models
 
 @login_required
 def new_run(request):
@@ -245,7 +248,7 @@ def run(request, run_id):
 	if request.method == 'POST':
 		form = SelectionDropForm (request.POST)
 		if form.is_valid():
-			CP = update_CP(run.get_current_cp(), CP_method=form.cleaned_data['cp_method'], value=form.cleaned_data['cp_'+form.cleaned_data['cp_method']+'_value'])
+			CP = update_CP(run.get_current_cp, CP_method=form.cleaned_data['cp_method'], value=form.cleaned_data['cp_'+form.cleaned_data['cp_method']+'_value'])
 			success = select(run, CP, domain_method=form.cleaned_data['domain_method'], perk_method=form.cleaned_data['perk_method'], addon_method=form.cleaned_data['addon_method'])
 		# Save most recent form selections to session
 		for k,v in request.POST.items():

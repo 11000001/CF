@@ -204,11 +204,9 @@ def max_addon (run, perk, CP):
 	Returns a pair <(option, total_cost)>.  <option> is a list of unsecured addons from the perk <perk> whose total cost is maximal among affordable addon selections; 
 	<total_cost> is this cost. Ties are broken randomly.  Returns <None> if no such list exists.
 	'''
-	print("in max addon")
 	addons = perk.addon_set.all()
 	affordable_list = []
 	for addon in addons:
-		print("addons exist!")
 		# if unlocked
 		if not run.attempts.filter(perk=perk, locked=True, addons__id=addon.id).exists():
 			total_cost = addon.cost
@@ -219,10 +217,8 @@ def max_addon (run, perk, CP):
 					total_cost += prereq_addon.cost
 					option.append(prereq_addon)
 				if total_cost > CP:
-					print("option too expensive")
 					break
 			if total_cost <= CP:
-				print("should be an addon")
 				if affordable_list == [] or affordable_list[0][1] < total_cost:
 					affordable_list = [(option, total_cost)]
 				elif affordable_list[0][1] == total_cost:
@@ -311,7 +307,7 @@ def random_CP(value):
 
 def update_CP (CP, CP_method="fixed", value='100'):
 	ldict = {'value':value}
-	exec("new = "+CP_method+"_CP(value)",globals(),ldict)
+	exec("new = "+CP_method+"_CP(value)", globals(), ldict)
 	new = ldict['new']
 	if new is not None:
 		return CP+new

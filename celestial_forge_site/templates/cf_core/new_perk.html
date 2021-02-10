@@ -41,6 +41,8 @@
 {% block content %}
 <form method = "post" enctype="multipart/form-data" id="all-forms" class="multi-main-wrapper">
 	{% csrf_token %}
+	<!-- Store current url for future routing (e.g., to return after an edit) -->
+	<input type="hidden" name="next" value="{{ next }}">
 	<!-- Perk Input Form -->
 	<div id="mainbox-card" class="main-wrapper">
 			{{ debug }}
