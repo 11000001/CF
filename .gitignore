@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 celestial_forge_site/celestial_forge_site/secret_settings.py
-celestial_forge_site/static/imgs
+celestial_forge_site/static/imgs/
 
 # Django #
 *.log
@@ -25,6 +25,7 @@ venv/
 ENV/ 
 env.bak/ 
 venv.bak/ 
+celestial_forge_site/DjangoEnv/
 
 # User-specific files
 *.rsuser
