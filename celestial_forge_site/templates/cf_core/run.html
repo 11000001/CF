@@ -29,13 +29,13 @@
 	{% csrf_token %}
 	<!-- Store whether settings are currently displayed -->
 	{{ form.open_settings }}
-	<!-- Main Dropdown Menu -->
+	<!--Dropdown Menu Btn-->
 	<div id='settings-btn-wrap' class="nav-btn-wrapper alt-hover">
 		<div class="nav-btn" onclick="toggleDrop('settings_wrap','settings-btn-wrap', 'alt-back')">
 			<i class="fas fa-cog"></i>
 		</div>
 	</div>
-	<!-- Dropdown -->
+	<!-- Dropdown Menu-->
 	<div id='settings_wrap' class="dropdown-wrapper flip-back">
 		<div id='settings_menu' class="dropdown noselect">
 			{% for field in form %}
@@ -102,7 +102,7 @@
 
 {% block content %}
 <div class="main-wrapper card-container">
-<div class="card-container">
+	<div class="card-container">
 		{% for attempt in run %}
 			<div id='card-wrapper-{{ forloop.counter0 }}' class="card-wrapper card-margin-shift min">
 				<div id='card-btn-wrapper-{{ forloop.counter0 }}' class="card-btn-wrapper">
@@ -161,7 +161,7 @@
 				<i class="fas fa-plus-circle"></i>
 			</div>
 		</div>
-</div>
+	</div>
 </div>
 {% endblock %}
 
