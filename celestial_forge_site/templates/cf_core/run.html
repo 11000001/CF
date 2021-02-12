@@ -106,7 +106,7 @@
 		{% for attempt in run %}
 			<div id='card-wrapper-{{ forloop.counter0 }}' class="card-wrapper card-margin-shift min">
 				<div id='card-btn-wrapper-{{ forloop.counter0 }}' class="card-btn-wrapper">
-					<div class="card-btn" onclick="toggleMag('card-wrapper-{{ forloop.counter0 }}', 'card-btn-wrapper-{{ forloop.counter0 }}')">
+					<div class="card-btn" onclick="toggleMag('card-wrapper-{{ forloop.counter0 }}')">
 						<i class="fas fa-search"></i>
 					</div>
 					<div class="card-btn" onclick="flip('front-{{ forloop.counter0 }}','back-{{ forloop.counter0 }}')">
@@ -117,9 +117,9 @@
 					</a>
 				</div>
 			{% if attempt.locked %}
-				<div id="front-{{ forloop.counter0 }}" class="card card-default noselect flip-front" onmouseleave="tscroll(this)" onclick="toggleMag(this)">
+				<div id="front-{{ forloop.counter0 }}" class="card card-default noselect flip-front" onmouseleave="tscroll(this)">
 			{% else %}
-				<div id="front-{{ forloop.counter0 }}" class="card card-fade noselect flip-front" onmouseleave="tscroll(this)" onclick="toggleMag(this)">
+				<div id="front-{{ forloop.counter0 }}" class="card card-fade noselect flip-front" onmouseleave="tscroll(this)">
 			{% endif %}
 					<div class="card-sup-container">
 						<div class="card-sup-title">
@@ -153,11 +153,11 @@
 						{% endif %}
 					</div>
 				</div>
-			<img id="back-{{ forloop.counter0 }}" class="cardback flip-back" src={{ attempt.perk.get_background_url }} alt="Cardback" onclick="">
+			<img id="back-{{ forloop.counter0 }}" class="cardback flip-back backZ" src={{ attempt.perk.get_background_url }} alt="Cardback">
 			</div>
 		{% endfor %}
-		<div id='card-wrapper-bot' class="card-wrapper min">
-			<div id="bot" class="card card-new card-margin-shift noselect" onclick="document.getElementById('drop-form').submit();">
+		<div id='card-wrapper-bot' class="card-wrapper card-margin-shift min">
+			<div id="bot" class="card card-new noselect" onclick="document.getElementById('drop-form').submit();">
 				<i class="fas fa-plus-circle"></i>
 			</div>
 		</div>
@@ -175,12 +175,9 @@
 	function hideOnClickOutside(x) {
 		const outsideClickListener = event => {
 			if (!x.contains(event.target)) {
-				x.style.transform = "scale(.5)";
-				x.style["-webkit-transform"] = "scale(.5)";
-				x.style["-moz-transform"] = "scale(.5)";
-				x.style["-o-transform"] = "scale(.5)";
-				x.style["-ms-transform"] = "scale(.5)";
-				setTimeout(function(){x.classList.toggle("topZ");},125);
+				x.style.transform = "";
+				x.classList.add('min');
+				setTimeout(function(){x.classList.remove("topZ");},251);
 				removeClickListener()
 			}
 		}
@@ -206,15 +203,16 @@
 		} else {
 			wrapper.style.transform = "";
 			wrapper.classList.add('min');
-			setTimeout(function(){x.classList.remove("topZ");},251);
+			setTimeout(function(){wrapper.classList.remove("topZ");},251);
 		}
 	}
 	</script>
 	<script>
-	function flip(front, back) {
-		document.getElementById(front).classList.toggle('flipped-front');
-		document.getElementById(back).classList.toggle('flipped-back');
-	}
+		function flip(front, back) {
+			document.getElementById(back).classList.toggle('backZ');
+			document.getElementById(front).classList.toggle('flipped-front');
+			document.getElementById(back).classList.toggle('flipped-back');
+		}
 	</script>
 	<script>
 	var drop = document.getElementById('settings_wrap');

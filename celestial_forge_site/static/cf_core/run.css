@@ -1,5 +1,7 @@
 .show {display: block;}
+.noshow {display: none;}
 .topZ{z-index:15;}
+.backZ {z-index: -1;}
 
 #current-cp{
 	height:2rem;
@@ -43,6 +45,7 @@
 	transition-timing-function: ease-in-out;
 	transition-duration: .25s;
 	transition-property: transform;
+	height: 42rem;
 }
 
 .card {
@@ -93,7 +96,6 @@
 	padding: calc((34rem - 30px) / 2) 0;
 }
 
-
 .card-new:hover {
 	outline: 5px dashed rgba(72,51,72,.95);
 	cursor: pointer;
@@ -136,7 +138,6 @@
 	font-size: 12px;
 	width: 100%;
 }
-
 
 .card-sup-container {
 	display: inline-flex;
@@ -216,7 +217,7 @@ img.cardback {
 	transform: rotateY(180deg);
 	box-shadow: 0 0 0 #000000;
 }
-.flipped-back{
+.flipped-back {
 	opacity: 1;
 	transform: rotateY(0deg);
 	box-shadow: -.5rem .25rem .5rem #000000;

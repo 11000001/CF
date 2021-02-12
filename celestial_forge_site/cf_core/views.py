@@ -11,18 +11,13 @@ from .models import *
 
 # TO DO:
 
-# Error on first submit doesn't show as error
-# new card button not the right size
-# can't click links
-# Scrolling cards suddenly doesn't work?
-# magnify doesn't work right when you only have one row
-
 # actual email sending(?)
 
+# Error on first submit doesn't show as error; also, not all error messages here are showing up
 # create new account not showing password errors
 # DRY: do form handling with form methods
 # add most recent roll selections to run model?
-# editperk and newperk are really slow
+# editperk and newperk are slow
 # perk cards have edge clippling on left side
 # improve str output for some models (f-strings)
 
@@ -65,8 +60,8 @@ def new_account(request):
 
 @login_required
 def new_perk(request):
-	addon_limit = 10
-	context = {'addon_limit':addon_limit}
+	ADDON_LIMIT = 5
+	context = {'addon_limit':ADDON_LIMIT}
 	context['page_title'] = 'Create a New Perk'
 	if request.method == 'POST':
 		context['domain_form'] = DomainForm(request.POST, prefix="domain_form")
@@ -131,7 +126,7 @@ def new_perk(request):
 		context['perk_form'] = PerkForm(prefix="perk_form")
 		context['domain_form'] = DomainForm(prefix="domain_form")
 		context['source_form'] = SourceForm(prefix="source_form")
-		context['addon_form_list'] = [ [AddonForm(prefix="addon_form_"+str(i)), range(i), []] for i in range(addon_limit) ]
+		context['addon_form_list'] = [ [AddonForm(prefix="addon_form_"+str(i)), range(i), []] for i in range(ADDON_LIMIT) ]
 		context['last_addon_index'] = -1
 	return render(request, 'cf_core/new_perk.html', context)
 
@@ -139,8 +134,8 @@ def new_perk(request):
 @login_required
 def edit_perk(request, perk_id):
 	close_all_prereqs ()
-	addon_limit = 10
-	context = {'addon_limit':addon_limit}
+	ADDON_LIMIT = 5
+	context = {'addon_limit':ADDON_LIMIT}
 	context['page_title'] = 'Edit Perk'
 	perk = get_object_or_404(Perk,pk=perk_id)
 	if request.method == 'POST':
@@ -152,7 +147,7 @@ def edit_perk(request, perk_id):
 		for addon in perk.addon_set.all():
 			context['addon_form_list'].append([AddonForm(request.POST, instance=addon, prefix="addon_form_"+str(i)), range(i), []])
 			i+=1
-		while i < addon_limit:
+		while i < ADDON_LIMIT:
 			context['addon_form_list'].append([AddonForm(request.POST, prefix="addon_form_"+str(i)), range(i), []])
 			i+=1
 		# Check for new domain/source; if they exist, record for later update
@@ -220,7 +215,7 @@ def edit_perk(request, perk_id):
 		context['perk_form'] = PerkForm(instance=perk, prefix="perk_form")
 		context['domain_form'] = DomainForm(prefix="domain_form")
 		context['source_form'] = SourceForm(prefix="source_form")
-		context['addon_form_list'] = [ [AddonForm(prefix="addon_form_"+str(i)), range(i), []] for i in range(addon_limit) ]
+		context['addon_form_list'] = [ [AddonForm(prefix="addon_form_"+str(i)), range(i), []] for i in range(ADDON_LIMIT) ]
 		# Populate addon forms with previous data
 		i = 0
 		for addon in order_addons(perk.addon_set.all()):
@@ -264,8 +259,8 @@ def run(request, run_id):
 				request.session[k] = v
 		return HttpResponseRedirect(reverse('run', kwargs={'run_id':run_id}))
 	else:
-		# If not a new run and saved info, set form info off session
-		if run.attempts.exists() and 'domain_method' in request.session:
+		# If saved info, set form info off session
+		if 'domain_method' in request.session:
 			form = SelectionDropForm(request.session)
 		else:
 			form = SelectionDropForm()
