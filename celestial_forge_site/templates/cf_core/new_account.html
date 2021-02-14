@@ -7,18 +7,49 @@
 {% block content %}
 <form action="" method="post" class="main-wrapper" >
 	{% csrf_token %}
-	<div  id="mainbox-medium">
-		{% if form.email.errors %}
-			{{ form.email.errors }}
+	<span  id="mainbox-medium">
+		{% if form.username.errors %}
+			{% for error in form.username.errors %}
+				<span class="error-color small-text">{{ error|escape }}</span>
+			{% endfor %}
+			<span class="error-color"><b>{{ form.username.label }}:</b>
+		{% else %}
+			<span><b>{{ form.username.label }}:</b>
 		{% endif %}
-		<div><b>{{ form.username.label }}: </b>{{ form.username }}</div>
+		{{ form.username }} </span>
 		{{ form.username.help_text }}
-		<div><b>{{ form.email.label }}: </b>{{ form.email }}</div>
+
+		{% if form.email.errors %}
+			{% for error in form.email.errors %}
+				<span class="error-color small-text">{{ error|escape }}</span>
+			{% endfor %}
+			<span class="error-color"><b>{{ form.email.label }}:</b>
+		{% else %}
+			<span><b>{{ form.email.label }}:</b>
+		{% endif %}
+		{{ form.email }}</span>
 		<span> Optional, but the only way to recover an account. </span>
-		<div><b>{{ form.password1.label }}: </b>{{ form.password1 }}</div>
-		<span> Required.</span>
+
+		{% if form.password1.errors %}
+			{% for error in form.password1.errors %}
+				<span class="error-color small-text">{{ error|escape }}</span>
+			{% endfor %}
+			<span class="error-color"><b>{{ form.password1.label }}:</b>
+		{% else %}
+			<span><b>{{ form.password1.label }}:</b>
+		{% endif %}
+		{{ form.password1 }}</span>
+		Required.
 		{{ form.password1.help_text }} 
-		<div><b>Confirm Password: </b>{{ form.password2 }}</div>
+		{% if form.password2.errors %}
+			{% for error in form.password2.errors %}
+				<span class="error-color small-text">{{ error|escape }}</span>
+			{% endfor %}
+			<span class="error-color"><b>Confirm Password: </b>
+		{% else %}
+			<span><b>Confirm Password: </b>
+		{% endif %}
+		{{ form.password2 }}</span>
 		<span> Required.</span>
 		<input type="submit" class="btn" value="Register">
 	</div>

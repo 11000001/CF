@@ -85,12 +85,12 @@ ul.forge-list{
 	font-weight:300;
 }
 
-.forge-name{
+.forge-name {
 	font-family: 'Atomic Age';
 	text-align: center;
-	font-size: 6rem;
-	font-weight: 900;
-	flex:1;
+	font-size: 3rem;
+	line-height: 7rem;
+	flex: 1;
 	color: black;
 	background-color: rgb(255,255,255,.7);
 	z-index: 1;

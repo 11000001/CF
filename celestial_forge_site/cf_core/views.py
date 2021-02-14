@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 
+
 from .forms import *
 from .functions import *
 from .models import *
@@ -14,10 +15,9 @@ from .models import *
 # actual email sending(?)
 
 # Error on first submit doesn't show as error; also, not all error messages here are showing up
-# create new account not showing password errors
 # DRY: do form handling with form methods
 # add most recent roll selections to run model?
-# editperk and newperk are slow
+# editperk and newperk are really slow 
 # perk cards have edge clippling on left side
 # improve str output for some models (f-strings)
 
@@ -60,7 +60,7 @@ def new_account(request):
 
 @login_required
 def new_perk(request):
-	ADDON_LIMIT = 5
+	ADDON_LIMIT = 4
 	context = {'addon_limit':ADDON_LIMIT}
 	context['page_title'] = 'Create a New Perk'
 	if request.method == 'POST':
@@ -134,7 +134,7 @@ def new_perk(request):
 @login_required
 def edit_perk(request, perk_id):
 	close_all_prereqs ()
-	ADDON_LIMIT = 5
+	ADDON_LIMIT = 4
 	context = {'addon_limit':ADDON_LIMIT}
 	context['page_title'] = 'Edit Perk'
 	perk = get_object_or_404(Perk,pk=perk_id)
