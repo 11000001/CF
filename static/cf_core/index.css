@@ -1,22 +1,6 @@
-.light-purple {background-color: rgb(72,51,72,1);}
 .show {display: block;}
 .topZ {z-index: 4;}
 .fill {flex-grow:1;}
-.mbm{mix-blend-mode: screen;}
-
-.mini-card {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-	height: 1.26rem;
-	width: .9rem;
-	border: .1rem dashed black;
-	font-size: .5rem;
-	font-weight:900;
-	line-height:1.26rem;
-	color: black;
-}
 
 .card-container {
 	margin: 3rem auto 1rem auto;
@@ -30,26 +14,24 @@
 
 .card {
 	position:relative;
-	width:95%;
+	width:70%;
 	height:7rem;
 	overflow: hidden;
-	border-radius: 4px;
 	margin: 1rem 0rem 0rem 0rem;
 	padding: 0;
 }
 .card::-webkit-scrollbar {display: none;} /* Hide scrollbar Chrome, Safari, Opera */
 
 .card-default-style {
-	border-width: 2px;
+	border-width: 1px;
 	border-style: solid;
-	border-color: black;
-	box-shadow: .2em .2em .5em #333;
+	border-color: rgba(26,0,26,.5);
 	transition: all.25s;
 }
 
-.card-default-style:hover{
-	box-shadow: .4em .4em .5em #333;
-}
+	.card-default-style:hover {
+		box-shadow: 1px 1px black, 1px -1px black, -1px 1px black, -1px -1px black;
+	}
 
 
 img.banner{
@@ -69,12 +51,14 @@ img.banner{
 	background-color: white;
 	border-radius:20px 0px 0px 20px;
 }
+
 .card-left {
-	width:15rem;
-	height:100%;
-	padding:.5rem;
+	width: 15rem;
+	height: 100%;
+	padding: .5rem;
 	border-style: none outset none none;
-	font-weight:900;
+	color: black;
+	background-color: rgba(10,0,10,.175);
 }
 
 ul.forge-list{
@@ -86,13 +70,13 @@ ul.forge-list{
 }
 
 .forge-name {
-	font-family: 'Atomic Age';
+	font-family: 'Courier New', monospace;
 	text-align: center;
 	font-size: 3rem;
 	line-height: 7rem;
 	flex: 1;
 	color: black;
-	background-color: rgb(255,255,255,.7);
+	background-color: rgba(255,255,255,.75);
 	z-index: 1;
 }
 
@@ -121,7 +105,7 @@ ul.forge-list{
 }
 
 .card-new:hover {
-	outline: 2px dashed rgb(72,51,72,1);
-	color: rgb(72,51,72,1);
+	outline: 2px dashed rgba(72,51,72,1);
+	color: rgba(72,51,72,1);
 	cursor: pointer;
 }

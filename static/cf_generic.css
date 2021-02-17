@@ -290,7 +290,7 @@ input[type=text], input[type=url], input[type=password], input[type=email] {
 	margin-left: -1.425rem;
 	padding-left:.25rem;
 	padding-bottom:.25rem;
-	background: rgb(26,0,26,1);
+	background: rgba(26,0,26,1);
 	box-shadow: .2em .2em .5em #333;
 }
 
