@@ -5222,7 +5222,7 @@
     <Content Include="obj\Any CPU\Debug\celestial_forge_site.pyproj.CoreCompileInputs.cache" />
     <Content Include="obj\Any CPU\Debug\celestial_forge_site.pyproj.FileListAbsolute.txt" />
     <Content Include="static\base_generic.css" />
-    <Content Include="static\cf_core\edit_perk.css" />
+    <Content Include="static\cf_core\new_run.css" />
     <Content Include="static\cf_core\index.css" />
     <Content Include="static\cf_core\new_perk.css" />
     <Content Include="static\cf_core\run.css" />
@@ -5247,7 +5247,7 @@
     <Content Include="static\network--GerdAltmann.png" />
     <Content Include="static\networkcircle--GerdAltmann.png" />
     <Content Include="templates\base_generic.html" />
-    <Content Include="templates\cf_core\edit_perk.html" />
+    <Content Include="templates\cf_core\new_run.html" />
     <Content Include="templates\cf_core\index.html" />
     <Content Include="templates\cf_core\new_account.html" />
     <Content Include="templates\cf_core\new_perk.html" />

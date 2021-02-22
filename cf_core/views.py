@@ -12,14 +12,17 @@ from .models import *
 
 # TO DO:
 
-# actual email sending(?)
+# Restrict selections to those of the forge!!!!!!!
 
+# actual email sending(?)
 # Error on first submit doesn't show as error; also, not all error messages here are showing up
+
 # DRY: do form handling with form methods
 # add most recent roll selections to run model?
 # editperk and newperk are really slow 
 # perk cards have edge clippling on left side
 # improve str output for some models (f-strings)
+# option to ignore domains
 
 def logout_view(request):
 	logout(request)
@@ -133,7 +136,6 @@ def new_perk(request):
 
 @login_required
 def edit_perk(request, perk_id):
-	close_all_prereqs ()
 	ADDON_LIMIT = 4
 	context = {'addon_limit':ADDON_LIMIT}
 	context['page_title'] = 'Edit Perk'
@@ -232,9 +234,26 @@ def edit_perk(request, perk_id):
 
 @login_required
 def new_run(request):
-	run = Run(owner=request.user, forge = Forge.objects.get(pk=1))
-	run.save()
-	return HttpResponseRedirect(reverse('run', kwargs={'run_id':run.id}))
+	context = {}
+	if request.method == 'POST':
+		updated_request = request.POST.copy()
+		updated_request.update({"run_form-owner":request.user})
+		context['run_form'] = RunForm(updated_request, prefix="run_form")
+		context['forge_form'] = ForgeForm(request.POST, request.FILES, prefix="forge_form")
+		if context['run_form'].is_valid():
+			run = context['run_form'].save()
+			return HttpResponseRedirect(reverse('run', kwargs={'run_id':run.id}))
+		elif context['forge_form'].is_valid():
+			new_forge = context['forge_form'].save()
+			updated_request.update({'run_form-forge': new_forge})
+			context['run_form'] = RunForm(updated_request, prefix="run_form")
+			if context['run_form'].is_valid():
+				run = context['run_form'].save()
+				return HttpResponseRedirect(reverse('run', kwargs={'run_id':run.id}))
+	else:
+		context['run_form'] = RunForm(prefix="run_form")
+		context['forge_form'] = ForgeForm(prefix="forge_form")
+	return render(request, 'cf_core/new_run.html', context)
 
 @login_required
 def run(request, run_id):

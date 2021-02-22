@@ -22,6 +22,18 @@ class UserCreationForm(UserCreationForm):
 class DelForm (forms.Form):
 	to_delete = forms.RegexField(label='(Hide)', regex="(\d+;)*", initial="", required=False, widget=forms.HiddenInput())
 
+class ForgeForm (forms.ModelForm):
+	
+	class Meta:
+		model = Forge
+		fields = ['name', 'description', 'perks', 'banner']
+
+class RunForm (forms.ModelForm):
+	
+	class Meta:
+		model = Run
+		fields = ['name', 'owner', 'forge']
+
 class PerkForm (forms.ModelForm):
 	
 	class Meta:

@@ -1,0 +1,100 @@
+{% extends "cf_generic.html" %}
+{% load static %}
+
+{% block head-add %}
+<link rel="stylesheet" href="{% static 'cf_core/new_run.css' %}">
+{% endblock %}
+
+{% block sub-header %}{{ user.get_username }}{% endblock %}
+
+{% block title-C %}Create a New Run{% endblock %}
+
+{% block nav-right %}
+	<!-- Error Button -->
+	{% if perk_form.errors %}
+		<div id="error-wrap" class="nav-btn-wrapper">
+			<div class="nav-btn error-color noselect">
+				<i class="fas fa-exclamation-triangle"></i>
+			</div>
+		</div>
+	{% else %}
+		<div id="error-wrap" class="nav-btn-wrapper">
+			<div class="nav-btn grey-text noselect">
+				<i class="fas fa-exclamation-triangle"></i>
+			</div>
+		</div>
+	{% endif %}
+	<!-- Save Button -->
+	<div id='save-wrap' class="nav-btn-wrapper alt-hover" onclick="document.getElementById('main').submit();">
+		<div id='save' class="nav-btn noselect">
+			<i class="fas fa-save"></i>
+		</div>
+	</div>
+	<!-- Exit Button -->
+	<a href="javascript:history.go(-1)" class="xbtn-wrapper red-hover">
+		<div class="xbtn">
+			<i class="fas fa-times"></i>
+		</div>
+	</a>
+{% endblock %}
+
+{% block content %}
+<form id="main" method="post" enctype="multipart/form-data" class="main-wrapper">
+	{% csrf_token %}
+	{{ debug }}
+	<!-- Run Input Form -->
+	{{ run_form.non_field_errors }}
+	<div>
+		<b>Run Name: </b>{{ run_form.name }}
+		<span class="error-text"> {{ run_form.name.errors.as_text|cut:"* " }} </span>
+		<div id="forge_input">
+			<b>{{ run_form.forge.label }}: </b>{{ run_form.forge }}
+			<span id="toggle_on" class="noselect" onclick="toggleForgeInput()"><i class="fas fa-toggle-on"></i></span>
+			<span id="toggle_off" class="noselect noshow" onclick="toggleForgeInput()"><i class="fas fa-toggle-off"></i></span>
+			<span class="error-text"> {{ run_form.forge.errors.as_text|cut:"* " }} </span>
+		</div>
+	</div>
+	<!-- Forge Input Form -->
+	<div id="alt_forge_input" class="noshow">
+		<h3 class="center-text"><b>New Forge</b></h3>
+		<div>
+			<b>Forge Name:</b> {{ forge_form.name }}
+		</div>
+		<div>
+			<b>{{ forge_form.description.label }}</b>
+			<span class="error-text"> {{ forge_form.description.errors.as_text|cut:"* " }} </span>
+			{{ forge_form.description }}
+		</div>
+		<div>
+			<b>{{ forge_form.perks.label }}</b>
+			<span class="error-text"> {{ forge_form.perks.errors.as_text|cut:"* " }} </span>
+			{{ forge_form.perks }}
+			<p class="small-text grey-text">Press 'Ctrl' to select multiple options</p>
+		</div>
+		<div>
+			<b>{{ forge_form.banner.label }}:</b> {{ forge_form.banner }}
+			<span class="error-text"> {{ forge_form.banner.errors.as_text|cut:"* " }} </span>
+		</div>
+	</div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		var t_on = document.getElementById("toggle_on");
+		var t_off = document.getElementById("toggle_off");
+		var normal_forge = document.getElementById("forge_input");
+		var alt_forge = document.getElementById("alt_forge_input");
+		var normal_forge_input = document.getElementById("id_run_form-forge");
+		function toggleForgeInput() {
+			t_on.classList.toggle('noshow');
+			t_off.classList.toggle('noshow');
+			normal_forge.classList.toggle('light-grey-text');
+			alt_forge.classList.toggle('noshow');
+			alt_forge.classList.toggle('flex');
+		}
+		if (!document.getElementById("id_run_form-forge").value && document.getElementById("id_forge_form-name").value) {
+			toggleForgeInput();
+		}
+	</script>
+{% endblock %}

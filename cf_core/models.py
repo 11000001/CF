@@ -81,13 +81,11 @@ class Perk (models.Model):
 	original = models.TextField(null=True, blank=True)
 	
 	def __str__(self):
-		return self.name+' ['+self.domain.name+']'
+		return f"[{self.domain.name}] {self.name}"
 	
 	def save(self, *args, **kwargs):
 		'''
-		On save, update timestamps, set initial values, and manage versions 
-			-Version #0 is the original submission (Don't overwrite!)
-			-Version #25 is the previous version, #24 is the version before, and so on.
+		On save, update timestamps and set initial values.
 		'''
 		if not self.id:
 			self.created = timezone.now()
@@ -104,7 +102,7 @@ class Perk (models.Model):
 			return "/static/forge.gif"
 	
 	class Meta:
-		ordering = ["name", "domain"]
+		ordering = ["domain", "name"]
 
 class Addon (models.Model):
 	name = models.CharField(max_length = 200) 
@@ -117,7 +115,7 @@ class Addon (models.Model):
 	prereq_addons = models.ManyToManyField("self", symmetrical=False, related_name="required_for_addons", blank=True)
 
 	def __str__(self):
-		return self.name+' ['+self.perk.domain.name+': '+self.perk.name+']'
+		return f"[{self.perk.domain.name}:{self.perk.name}] {self.name}"
 	
 	def save(self, *args, **kwargs):
 		''' On save, update timestamps '''
@@ -127,7 +125,7 @@ class Addon (models.Model):
 		return super(Addon, self).save(*args, **kwargs)
 
 	class Meta:
-		ordering = ["name", "perk"]
+		ordering = ["perk", "name"]
 
 class Version (models.Model):
 	number = models.PositiveIntegerField(default=0)
