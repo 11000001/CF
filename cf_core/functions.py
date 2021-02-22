@@ -95,17 +95,17 @@ def random_domain (run):
 	'''
 	Returns a random domain.
 	'''
-	domains = Domain.objects.all()
-	return domains[random.randint(0, domains.count()-1)]
+	domains = run.forge.get_domains
+	return domains[random.randint(0, len(domains)-1)]
 
 def seq_domain (run):
 	'''
 	Returns the next domain.
 	'''
-	domains = Domain.objects.all().order_by('id')
+	domains = run.forge.get_domains
 	latest = run.attempts.order_by('-number').first()
-	if latest == None or latest.domain == domains.last():
-		return domains.first()
+	if latest == None or latest.domain == domains[-1]:
+		return domains[0]
 	i = 0
 	for domain in domains:
 		if domain.id == latest.domain.id:
@@ -116,7 +116,7 @@ def random_perk (run, domain, CP):
 	'''
 	Returns a random unlocked perk from the domain <domain>.
 	'''
-	perks = domain.perk_set.all()
+	perks = domain.perk_set.filter(forges__in=[run.forge])
 	perk = perks[random.randint(0, perks.count()-1)]
 	while run.attempts.filter(perk=perk, locked=True).exists():
 		perks = perks.exclude(id=perk.id)
@@ -129,29 +129,33 @@ def random_perk (run, domain, CP):
 
 def max_perk (run, domain, CP):
 	'''
-	Returns the most expensive unlocked affordable perk in the domain, breaking ties randomly.  Returns <None> if no such perk exists.
+	Returns the most expensive unlocked affordable perk in the domain, breaking ties randomly.  Returns the smallest unlocked choice if no such perk exists.
 	'''
-	perks = domain.perk_set.all().order_by('-cost')
+	perks = domain.perk_set.filter(forges__in=[run.forge]).order_by('-cost')
 	max_list = []
 	for perk in perks:
 		if perk.cost <= CP and (max_list == [] or max_list[0].cost == perk.cost) and not run.attempts.filter(perk=perk, locked=True).exists():
 			max_list.append(perk)
 	if max_list == []:
-		return None
+		for perk in perks:
+			if not run.attempts.filter(perk=perk, locked=True).exists():
+				return perk
 	return max_list[random.randint(0, len(max_list)-1)]
 
 
 def random_affordable_perk (run, domain, CP):
 	'''
-	Returns a random unlocked affordable perk in the domain.
+	Returns a random unlocked affordable perk in the domain.  Returns the smallest unlocked choice if no such perk exists.
 	'''
-	perks = domain.perk_set.all().order_by('-cost')
+	perks = domain.perk_set.filter(forges__in=[run.forge]).order_by('-cost')
 	affordable_list = []
 	for perk in perks:
 		if perk.cost <= CP and not run.attempts.filter(perk=perk, locked=True).exists():
 			affordable_list.append(perk)
 	if affordable_list == []:
-		return None
+		for perk in perks:
+			if not run.attempts.filter(perk=perk, locked=True).exists():
+				return perk
 	return affordable_list[random.randint(0, len(affordable_list)-1)]
 
 def random_addon (run, perk, CP):

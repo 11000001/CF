@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.core import serializers
 
 class Forge (models.Model):
@@ -27,6 +28,15 @@ class Forge (models.Model):
 			return self.banner.url
 		else:
 			return "/static/networkcircle--GerdAltmann.png"
+	
+	@cached_property
+	def get_domains(self):
+		d = []
+		for perk in self.perks.all():
+			if perk.domain not in d:
+				d.append(perk.domain)
+		return d
+
 
 class Domain (models.Model):
 	name = models.CharField(max_length = 200) 
