@@ -12,8 +12,6 @@ from .models import *
 
 # TO DO:
 
-# Restrict selections to those of the forge!!!!!!!
-
 # actual email sending(?)
 # Error on first submit doesn't show as error; also, not all error messages here are showing up
 
