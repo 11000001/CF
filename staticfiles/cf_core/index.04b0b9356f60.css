@@ -1,0 +1,110 @@
+.show {display: block;}
+.topZ {z-index: 4;}
+.fill {flex-grow:1;}
+
+.card-container {
+	margin: 3rem auto 1rem auto;
+	width: 98%;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	list-style-type:none;
+}
+
+.card {
+	position: relative;
+	width: 70%;
+	height: 9rem;
+	overflow: hidden;
+	margin: 1rem 0rem 0rem 0rem;
+	padding: 0;
+}
+.card::-webkit-scrollbar {display: none;} /* Hide scrollbar Chrome, Safari, Opera */
+
+.card-default-style {
+	border-width: 4px;
+	border-style: ridge;
+	border-color: rgba(72,51,72,1);
+	box-shadow: -1.5px 1px 1px black;
+	border-radius: 10px;
+}
+
+	.card-default-style:hover {
+		box-shadow: -2.5px 2px 2px black;
+	}
+
+
+img.banner {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	object-position: 115px -20px;
+}
+
+.overlay-container {
+	width: 100%;
+	height: 100%;
+	display: inline-flex;
+	align-items: center;
+	background-color: white;
+}
+
+.card-left {
+	width: 15rem;
+	height: 100%;
+	padding: 1rem;
+	border-style: none outset none none;
+	color: black;
+	background-color: rgba(175,175,175,.5);
+}
+
+ul.forge-list{
+	list-style-type:none;
+	margin: .5rem 0rem 0rem 0rem; 
+	padding-left: .5rem;
+	font-size: 12px;
+	font-weight:300;
+}
+
+.forge-name {
+	font-family: 'Courier New', monospace;
+	text-align: center;
+	font-size: 3rem;
+	line-height: 9rem;
+	flex: 1;
+	color: black;
+	background-color: rgba(255,255,255,.75);
+	z-index: 1;
+}
+
+.xbtn {
+	position: absolute;
+	top:0;
+	right:0;
+	border-width: 0px;
+	font-size: 16px;
+	background-color: transparent;
+	border-radius: 2px;
+	z-index: 2;
+	color: black;
+	margin-right: .125rem;
+}
+
+
+.card-new {
+	position: relative;
+	outline: 2px dashed black;
+	outline-offset: -5px;
+	border-width: 0px;
+	line-height:9rem;
+	font-size: 4rem;
+	padding-left: 4rem;
+}
+
+.card-new:hover {
+	outline: 2px dashed rgba(72,51,72,1);
+	color: rgba(72,51,72,1);
+	cursor: pointer;
+}

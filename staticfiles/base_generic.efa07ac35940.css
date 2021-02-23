@@ -1,0 +1,61 @@
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+body{
+	padding:0;
+	margin:0;
+	height: 100%;
+}
+
+.notd {text-decoration: none;}
+.fill {flex:1;}
+.invert{filter:invert(1);}
+.show {display: block;}
+.show-inline {display: inline-block;}
+.center-text{text-align: center;}
+
+#bg {
+	position: fixed; 
+	top: 0; 
+	left: 0; 
+	/* Preserve aspet ratio */
+	min-width: 100%;
+	min-height: 100%;
+}
+
+.hide-scroll{
+	-ms-overflow-style: none;  /* Hide scrollbar IE and Edge */
+	scrollbar-width: none;  /* Hide scrollbar Firefox */
+	overscroll-behavior: contain;
+}
+.hide-scroll::-webkit-scrollbar {
+	display: none;
+}
+
+.wiggle:hover{ 
+	animation: wiggle 400ms 1;
+	animation-timing-function: linear;
+}
+
+@keyframes wiggle {
+	20% { transform: translateX(-.3px); }
+	40% { transform: translateX(.3px); }
+	60% { transform: translateX(-.15px); }
+	80% { transform: translateX(-.15px); }
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.center {
+	position:relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

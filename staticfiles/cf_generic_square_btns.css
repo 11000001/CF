@@ -1,0 +1,323 @@
+*{
+	box-sizing: border-box;
+}
+
+.themecolor-back {background-color: rgb(26,0,26,.95);}
+
+.themecolor-text {color: rgb(26,0,26,1);}
+
+.themecolor-light-back {background-color: rgb(72,51,72,1);}
+
+.themecolor-light-text {color: rgb(72,51,72,1);}
+
+.fill {flex-grow:1;}
+
+.btn-shadowbox:hover {box-shadow: 2px 2px 4px #333;}
+
+#bg {
+	position: fixed; 
+	top: 0; 
+	left: 0; 
+	/* Preserve aspet ratio */
+	min-width: 100%;
+	min-height: 100%;
+	filter: opacity(50%);
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	font-family: serif, sans-serif;
+}
+
+
+#header-wrapper{
+	position: fixed;
+	top:0;
+	height: 3rem;
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	z-index:10;
+}
+
+.header-style-1{
+	background-image: linear-gradient(160deg, rgba(255,255,255,.75), rgba(255,255,255,0) 25%);
+}
+
+#title-card{
+	position: absolute;
+	top:0px;
+	left:0px;
+}
+
+#title{
+	display:inline;
+	color: rgb(26,0,26,1);
+	font-size: 2.5rem;
+	font-family: 'Atomic Age';
+	padding: 0px 0px 0px 10px;
+}
+
+#sub-header{
+	display:inline;
+	color: rgb(26,0,26,1);
+	font-size: 1.5rem;
+	padding: 0px 10px 0px 0px;
+	margin: 0rem;
+	font-variant: small-caps;
+}
+
+#nav-right {
+	display: flex;
+}
+
+.error_tooltip {
+	position: relative;
+	display: inline-block;
+	width: 1rem;
+	height: 1.5rem;
+	margin-right: .25rem;
+	background-color: white;
+	color: rgb(139,0,0,1);
+	font-size: 12px;
+	text-align: center;
+	border: solid;
+	border-width: .1rem;
+	border-radius: .5rem;
+	border-color: rgb(139,0,0,1);
+}
+
+.error_tooltip .error_tooltiptext {
+	visibility: hidden;
+	width: 250px;
+	background-color: white;
+	color: rgb(139,0,0,1);
+	text-align: left;
+	padding: 5px;
+	border: solid;
+	border-width: .1rem;
+	border-color: rgb(139,0,0,1);
+	border-radius: .5rem .15rem .5rem .5rem;
+	margin: 0;
+  /* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+	top: 1.5rem;
+	right: 115%;
+}
+
+.error_tooltip:hover .error_tooltiptext {
+  visibility: visible;
+}
+
+.btn-wrapper {
+	display: inline-block;
+}
+
+.btn {
+	width: 6.5rem;
+	height: 1.5rem;
+	overflow: hidden;
+	font-size: 16px;
+	border: solid;
+	border-color: rgb(26,0,26,.9);
+	border-width: .5px;
+	background-color: rgb(26,0,26,.9);
+	color: #ffffff;
+	border-radius: 4px;
+	margin-right: .25rem;
+}
+
+.clicker:active {
+	-webkit-transition: all 1s linear;
+	-moz-transition:  all 1s linear;
+	-o-transition:  all 1s linear;
+	-ms-transition:  all 1s linear;
+	transition:  all 1s linear;
+	-webkit-transform: scale(75%);
+	-moz-transform: scale(75%);
+	-o-transform: scale(75%);
+	-ms-transform: scale(75%);
+	transform: scale(75%);
+}
+
+.clicker:hover {
+	background-color: rgb(72,51,72,1);
+	box-shadow: 2px 2px 4px #333;
+}
+
+.xclicker:active {
+	-webkit-transition: all 1s linear;
+	-moz-transition:  all 1s linear;
+	-o-transition:  all 1s linear;
+	-ms-transition:  all 1s linear;
+	transition:  all 1s linear;
+	-webkit-transform: scale(75%);
+	-moz-transform: scale(75%);
+	-o-transform: scale(75%);
+	-ms-transform: scale(75%);
+	transform: scale(75%);
+}
+
+.xclicker:hover {
+	background-color: rgb(139,0,0,1);
+	border-color: rgb(139,0,0,1);
+	color:white;
+}
+
+
+.dropdown-content {
+	position: absolute;
+	display: none;
+	margin-top: .25rem;
+}
+
+.menu-item-wrapper {
+	color: #ffffff;
+	font-size: 12px;
+}
+
+.menu-item {
+	position: relative;
+	width: 6.5rem;
+	height: 1.25rem;
+	overflow:hidden;
+	background-color: rgb(72,51,72,1);
+	display: inline-flex;
+	justify-content: flex-start;
+	align-items: center;
+	border: solid;
+	border-color: rgb(26,0,26,.9);
+	border-width: .5px;
+	border-radius: 4px;
+	margin-bottom: .25rem;
+}
+
+.menu-item:hover>.radiobox {
+	background-color: #ffffff;
+}
+
+.radiobox {
+	margin-right:.3rem;
+	margin-left:.3rem;
+	width:.25rem;
+	height: .75rem;
+	background-color: #1a001a;
+	border-radius: .625rem;
+}
+
+/* Hide the browser's default radio button */
+.dropdown-content input[type=radio] {
+	position: absolute;
+	opacity: 0;
+}
+
+.menu-item input:checked ~ div.radiobox {
+	background-color: #ffffff;
+}
+
+#cp-backdrop{
+	width: 9rem;
+	height:1.5rem;
+	font-size: 18px;
+	border-style: none none none solid;
+	border-color: rgb(26,0,26,.9) rgb(26,0,26,.9) rgb(26,0,26,.9) transparent;
+	border-width: .5px;
+	background: rgb(255,255,255,1);
+	color: rgb(26,0,26,1);
+	border-radius: 4px;
+	margin-right: .5rem;
+	box-shadow: -2px 0px 1px rgb(26,0,26,1) inset, -2px 0px 0px rgb(26,0,26,1) inset;
+	z-index:-1;
+}
+
+.cpbtn {
+	position: relative;
+	width: 2.5rem;
+	height: 1.5rem;
+	left:-.05rem;
+	font-size: 16px;
+	border-style: solid;
+	border-color: rgb(26,0,26,.9);
+	border-width: .5px;
+	background-color: rgb(26,0,26,.95);
+	color: #ffffff;
+	border-radius: 4px;
+	margin-right: 1.25rem;
+}
+
+.xbtn {
+	width: 2rem;
+	height: 1.5rem;
+	font-size: 16px;
+	border-style: solid;
+	border-color: rgb(26,0,26,.9);
+	border-width: .5px;
+	background-color: rgb(26,0,26,.95);
+	color: #ffffff;
+	border-radius: 4px;
+	margin-right: .5rem;
+}
+
+.light-purple {background-color: rgb(72,51,72,1);}
+.show {display: block;}
+.topZ {z-index: 4;}
+
+
+.menu-item-cp {
+	width: 9rem;
+	height: 1.25rem;
+	overflow: hidden;
+	background-color: rgb(72,51,72,1);
+	display: inline-flex;
+	justify-content: flex-start;
+	align-items: center;
+	border: solid;
+	border-color: rgb(26,0,26,.9);
+	border-width: .5px;
+	border-radius: 4px;
+	margin-bottom: .25rem;
+}
+
+.menu-item-cp:hover>.radiobox {
+	background-color: #ffffff;
+}
+
+.menu-item-cp input:checked ~ div.radiobox {
+	background-color: #ffffff;
+}
+
+#id_cp_fixed_value{
+	flex:1;
+	min-width: 0;
+	margin-left: .3rem;
+}
+
+#id_cp_random_value{
+	flex:1;
+	min-width: 0;
+	margin-left: .3rem;
+}
+
+.wiggle:hover{ 
+	animation: wiggle 400ms 1;
+	animation-timing-function: linear;
+}
+
+@keyframes wiggle {
+	20% { transform: translateX(-.3px); }
+	40% { transform: translateX(.3px); }
+	60% { transform: translateX(-.15px); }
+	80% { transform: translateX(-.15px); }
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}

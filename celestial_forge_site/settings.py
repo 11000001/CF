@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
-import environ
 from pathlib import Path
 #from .secret_settings import *
 
@@ -19,16 +18,9 @@ from pathlib import Path
 # Original: BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 LOGIN_REDIRECT_URL = "index"
 
 # Application definition
@@ -139,14 +131,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static")
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Environment Settings
-env = environ.Env()
-environ.Env.read_env()  # reading .env file
+env = os.environ.Env()
+os.environ.Env.read_env()  # reading .env file
 
 DEBUG = env.bool('DEBUG', default=False)
 
 DATABASES = {'default': 
              {
-              'ENGINE': 'django.db.backends.postgresql_psycopg2',
+              'ENGINE': env('DATABASE_ENGINE'),
               'NAME': env('DATABASE_NAME'),
               'USER': env('DATABASE_USER'),
               'PASSWORD': env('DATABASE_PASS'),
@@ -155,7 +147,7 @@ DATABASES = {'default':
 
 MEDIA_URL = env('MEDIA_URL', default='media/')
 STATIC_URL = env('STATIC_URL', default='static/')
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 GUEST_PASSWORD = env('GUEST_PASSWORD')
 SECRET_KEY = env('SECRET_KEY')
 
