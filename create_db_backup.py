@@ -6,6 +6,8 @@ def create_db_backup():
 		f = open("db_dump.json", "w", encoding="utf-8")
 		p = subprocess.run(cmd, capture_output=True, text=True, shell=True)
 		f.write(p.stdout)
+		print(p.stdout)
+		input("Press Enter to continue...")
 	finally:
 		f.close()
 
