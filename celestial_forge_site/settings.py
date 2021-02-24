@@ -40,7 +40,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'celestial_forge_site.urls'
 
@@ -102,9 +105,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-	os.path.join(BASE_DIR, "static")
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = "/media/"
 
@@ -112,12 +113,13 @@ MEDIA_URL = "/media/"
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Security
-SECURE_HSTS_SECONDS = 60
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+if os.getenv('SECURE', 'FALSE') == 'TRUE':
+    SECURE_HSTS_SECONDS = 60
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 DATABASES = {
     'default': {
@@ -126,10 +128,15 @@ DATABASES = {
     }
 }
 
-DEBUG = False
 SECRET_KEY = os.getenv('SECRET_KEY', 'Default Dummy Key')
 GUEST_PASSWORD = os.getenv('GUEST_PASSWORD', 'Default Dummy Password')
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS','Default Dummy Host')]
+DEBUG = os.environ.get('DEBUG', False)
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Configure Django App for Heroku.
 import django_heroku

@@ -15,15 +15,6 @@ body{
 .show-inline {display: inline-block;}
 .center-text{text-align: center;}
 
-#bg {
-	position: fixed; 
-	top: 0; 
-	left: 0; 
-	/* Preserve aspet ratio */
-	min-width: 100%;
-	min-height: 100%;
-}
-
 .hide-scroll{
 	-ms-overflow-style: none;  /* Hide scrollbar IE and Edge */
 	scrollbar-width: none;  /* Hide scrollbar Firefox */

@@ -2,3 +2,5 @@ django
 gunicorn
 django-heroku
 pillow
+dj-database-url
+whitenoise

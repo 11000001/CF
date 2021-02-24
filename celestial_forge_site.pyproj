@@ -5227,8 +5227,6 @@
     <Content Include="static\cf_core\new_perk.css" />
     <Content Include="static\cf_core\run.css" />
     <Content Include="static\cf_generic.css" />
-    <Content Include="static\cf_generic_base.css" />
-    <Content Include="static\cf_generic_square_btns.css" />
     <Content Include="static\d20--M-Maggs.png" />
     <Content Include="static\forge.gif" />
     <Content Include="static\imgs\forge_banners\distortRings--GerdAltmann.png" />
