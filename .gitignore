@@ -4,8 +4,6 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 celestial_forge_site/celestial_forge_site/secret_settings.py
-celestial_forge_site/static/imgs/
-static/imgs/
 celestial_forge_site/secret_settings.py
 
 # Django #
