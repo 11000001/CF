@@ -137,14 +137,22 @@ environ.Env.read_env()  # reading .env file
 
 DEBUG = env.bool('DEBUG', default=False)
 
-DATABASES = {'default': 
-             {
-              'ENGINE': env('DATABASE_ENGINE'),
-              'NAME': env('DATABASE_NAME'),
-              'USER': env('DATABASE_USER'),
-              'PASSWORD': env('DATABASE_PASS'),
-             }
-            }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+#DATABASES = {'default': 
+#             {
+#              'ENGINE': env('DATABASE_ENGINE'),
+#              'NAME': env('DATABASE_NAME'),
+#              'USER': env('DATABASE_USER'),
+#              'PASSWORD': env('DATABASE_PASS'),
+#             }
+#            }
 
 MEDIA_URL = env('MEDIA_URL', default='media/')
 STATIC_URL = env('STATIC_URL', default='static/')
