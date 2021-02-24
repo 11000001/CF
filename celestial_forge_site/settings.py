@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import environ
 from pathlib import Path
 #from .secret_settings import *
 
@@ -131,8 +132,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static")
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Environment Settings
-env = os.environ.Env()
-os.environ.Env.read_env()  # reading .env file
+env = environ.Env()
+environ.Env.read_env()  # reading .env file
 
 DEBUG = env.bool('DEBUG', default=False)
 
