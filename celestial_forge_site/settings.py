@@ -11,16 +11,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
-import environ
 from pathlib import Path
-#from .secret_settings import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # Original: BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 
 LOGIN_REDIRECT_URL = "index"
 
@@ -67,24 +63,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'celestial_forge_site.wsgi.application'
 
-# Security
-SECURE_HSTS_SECONDS = 60
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -122,20 +100,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
 	os.path.join(BASE_DIR, "static")
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_URL = "/media/"
 
 # EMAIL TESTING
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Environment Settings
-env = environ.Env()
-environ.Env.read_env()  # reading .env file
-
-DEBUG = env.bool('DEBUG', default=False)
+# Security
+SECURE_HSTS_SECONDS = 60
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 DATABASES = {
     'default': {
@@ -144,21 +126,10 @@ DATABASES = {
     }
 }
 
-
-#DATABASES = {'default': 
-#             {
-#              'ENGINE': env('DATABASE_ENGINE'),
-#              'NAME': env('DATABASE_NAME'),
-#              'USER': env('DATABASE_USER'),
-#              'PASSWORD': env('DATABASE_PASS'),
-#             }
-#            }
-
-MEDIA_URL = env('MEDIA_URL', default='media/')
-STATIC_URL = env('STATIC_URL', default='static/')
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-GUEST_PASSWORD = env('GUEST_PASSWORD')
-SECRET_KEY = env('SECRET_KEY')
+DEBUG = False
+SECRET_KEY = os.getenv('SECRET_KEY', 'Default Dummy Key')
+GUEST_PASSWORD = os.getenv('GUEST_PASSWORD', 'Default Dummy Password')
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS','Default Dummy Host')]
 
 # Configure Django App for Heroku.
 import django_heroku

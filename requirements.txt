@@ -2,4 +2,3 @@ django
 gunicorn
 django-heroku
 pillow
-django-environ
