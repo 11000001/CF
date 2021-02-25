@@ -116,7 +116,6 @@ MEDIA_URL = "/media/"
 # Security
 DEBUG = os.getenv('DEBUG', 'FALSE')
 if DEBUG != 'TRUE':
-    print("Secure")
     SECURE_HSTS_SECONDS = 60
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
@@ -133,6 +132,9 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
     }
 }
+
+# Dev Settings
+# from . import secret_settings
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'Default Dummy Key')
 GUEST_PASSWORD = os.getenv('GUEST_PASSWORD', 'Default Dummy Password')

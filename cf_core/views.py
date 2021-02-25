@@ -194,7 +194,7 @@ def edit_perk(request, perk_id):
 		# Perk form is valid and every Addon form is either valid or empty
 		if valid:
 			# Save previous version if necessary
-			if not perk.previous_versions.all().exists() or timezone.now() - perk.previous_versions.latest('created') > timezone.timedelta(days=7):
+			if not perk.previous_versions.all().exists() or timezone.now() - perk.previous_versions.latest('created').created > timezone.timedelta(days=7):
 				newVersion=Version(perk=perk, json=serializers.serialize('json', Perk.objects.filter(pk=perk.id)), editor=request.user)
 				for addon in perk.addon_set.all():
 					newVersion.json += serializers.serialize('json', Addon.objects.filter(pk=addon.id))
