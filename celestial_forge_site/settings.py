@@ -24,6 +24,7 @@ LOGIN_REDIRECT_URL = "index"
 
 INSTALLED_APPS = [
 	'cf_core',
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -113,13 +114,18 @@ MEDIA_URL = "/media/"
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Security
-if os.getenv('SECURE', 'FALSE') == 'TRUE':
+DEBUG = os.getenv('DEBUG', 'FALSE')
+if DEBUG != 'TRUE':
+    print("Secure")
     SECURE_HSTS_SECONDS = 60
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    DEBUG = False
+else:
+    DEBUG = True
 
 DATABASES = {
     'default': {
@@ -131,7 +137,14 @@ DATABASES = {
 SECRET_KEY = os.getenv('SECRET_KEY', 'Default Dummy Key')
 GUEST_PASSWORD = os.getenv('GUEST_PASSWORD', 'Default Dummy Password')
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS','Default Dummy Host')]
-DEBUG = os.environ.get('DEBUG', False)
+
+# Cloudinary Configuration
+import cloudinary
+cloudinary.config( 
+  cloud_name = "cforge", 
+  api_key = "925195268411291", 
+  api_secret = os.getenv('API_SECRET', 'Default Dummy Secret')
+)
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url

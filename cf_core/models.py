@@ -4,13 +4,17 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.core import serializers
 
+# For hosting media on Heroku
+from cloudinary.models import CloudinaryField
+
 class Forge (models.Model):
 	name = models.CharField(max_length = 200) 
 	description = models.TextField(default="", blank=True)
 	perks = models.ManyToManyField("Perk", related_name="forges", blank=True)
 	created = models.DateTimeField(editable=False)
 	last_update = models.DateTimeField()
-	banner = models.ImageField(upload_to='imgs/forge_banners/', null=True, blank=True)
+	#banner = models.ImageField(upload_to='imgs/forge_banners/', null=True, blank=True)
+	banner = CloudinaryField('image', blank = True, null = True)
 	
 	def __str__(self):
 		return self.name
@@ -86,7 +90,8 @@ class Perk (models.Model):
 	prereq_addons = models.ManyToManyField("Addon", related_name="required_for_perks", blank=True)
 	url_wikipedia = models.URLField(null=True, blank=True)
 	url_youtube = models.URLField(null=True, blank=True)
-	background = models.ImageField(upload_to='imgs/perk_backgrounds/', null=True, blank=True)
+	#background = models.ImageField(upload_to='imgs/perk_backgrounds/', null=True, blank=True)
+	background=CloudinaryField('image', blank = True, null = True)
 	last_editor = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
 	original = models.TextField(null=True, blank=True)
 	

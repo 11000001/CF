@@ -5,6 +5,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 
+# Cloudinary for Heroku
+from cloudinary.forms import cl_init_js_callbacks
 
 from .forms import *
 from .functions import *

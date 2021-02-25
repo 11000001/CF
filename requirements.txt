@@ -4,3 +4,4 @@ django-heroku
 pillow
 dj-database-url
 whitenoise
+cloudinary
