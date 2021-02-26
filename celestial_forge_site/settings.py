@@ -134,10 +134,9 @@ DATABASES = {
 }
 
 # Dev Settings
-# from . import secret_settings
+#from . import secret_settings
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'Default Dummy Key')
-GUEST_PASSWORD = os.getenv('GUEST_PASSWORD', 'Default Dummy Password')
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS','Default Dummy Host')]
 
 # Cloudinary Configuration

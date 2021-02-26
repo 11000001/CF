@@ -8,6 +8,9 @@ from django.utils import timezone
 # Cloudinary for Heroku
 from cloudinary.forms import cl_init_js_callbacks
 
+import os
+GUEST_PASSWORD = os.environ["GUEST_PASSWORD"]
+
 from .forms import *
 from .functions import *
 from .models import *
