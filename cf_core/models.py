@@ -96,7 +96,7 @@ class Perk (models.Model):
 	original = models.TextField(null=True, blank=True)
 	
 	def __str__(self):
-		return f"[{self.domain.name}] {self.name}"
+		return f"[{self.domain.name}] {self.name} ({self.cost} CP) from {self.source}"
 	
 	def save(self, *args, **kwargs):
 		'''
@@ -131,7 +131,7 @@ class Addon (models.Model):
 
 	def __str__(self):
 		if self.perk != None:
-			return f"[{self.perk.domain.name}:{self.perk.name}] {self.name}"
+			return f"[{self.perk.domain.name} : {self.perk.name}] {self.name} ({self.cost} CP)"
 		else:
 			return f"{self.name}"
 	

@@ -73,7 +73,7 @@ def new_perk(request):
 		context['domain_form'] = DomainForm(request.POST, prefix="domain_form")
 		context['source_form'] = SourceForm(request.POST, prefix="source_form")
 		# List of triples: 1 - Form, 2- Prereq numbers to be displayed, 3- Checked prereq numbers
-		context['addon_form_list'] = [ [AddonForm(request.POST, prefix="addon_form_"+str(i)), range(i), []] for i in range(addon_limit) ]
+		context['addon_form_list'] = [ [AddonForm(request.POST, prefix="addon_form_"+str(i)), range(i), []] for i in range(ADDON_LIMIT) ]
 		# Check for new domain/source; if they exist, record for later update
 		updated_request = request.POST.copy()
 		if context['domain_form'].is_valid():
@@ -121,7 +121,9 @@ def new_perk(request):
 			while i <= last:
 				new_addon = context['addon_form_list'][i][0].save()
 				new_addon.prereq_perks.add(new_perk)
+				new_addon.perk = new_perk
 				one_step_close_prereq(new_addon)
+				new_addon.save()
 				i += 1
 			unlimited_forge = get_object_or_404(Forge,pk=1)
 			unlimited_forge.perks.add(new_perk)
