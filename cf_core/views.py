@@ -19,12 +19,10 @@ from .models import *
 
 # actual email sending(?)
 # Error on first submit doesn't show as error; also, not all error messages here are showing up
+# Forge image is too large (covers text)
 
 # DRY: do form handling with form methods
 # add most recent roll selections to run model?
-# editperk and newperk are really slow 
-# perk cards have edge clippling on left side
-# improve str output for some models (f-strings)
 # option to ignore domains
 
 def logout_view(request):
